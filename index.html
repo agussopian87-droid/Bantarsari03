@@ -1,198 +1,333 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilkades Bantarsari</title>
 
-  <title>Pilkades Bantarsari</title>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #111827;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f7f5;
-      color: #18382d;
-    }
+.header {
+    background: #166534;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+}
 
-    /* Peringatan jika HP portrait */
-    #landscapeWarning {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: #075c3b;
-      color: white;
-      text-align: center;
-      padding: 30px;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+}
 
-    #landscapeWarning h2 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
+.header p {
+    margin: 5px 0 0;
+}
 
-    #landscapeWarning p {
-      font-size: 18px;
-    }
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 25px;
+}
 
-    @media (orientation: portrait) {
-      #landscapeWarning {
+.title {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.title h2 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.candidate {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+    cursor: pointer;
+}
+
+.candidate:hover {
+    transform: scale(1.02);
+}
+
+.photo {
+    width: 220px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 4px solid #166534;
+}
+
+.number {
+    font-size: 50px;
+    font-weight: bold;
+    color: #166534;
+    margin-top: 10px;
+}
+
+.name {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 8px 0 15px;
+}
+
+.button {
+    background: #166534;
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-box {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+}
+
+.modal-box h2 {
+    margin-top: 0;
+}
+
+.btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.btn {
+    padding: 13px 22px;
+    border-radius: 9px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.repeat {
+    background: #e5e7eb;
+}
+
+.confirm {
+    background: #166534;
+    color: white;
+}
+
+.success {
+    color: #166534;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+@media (orientation: portrait) {
+    .landscape-warning {
         display: flex;
-      }
+    }
+}
 
-      .app {
+@media (orientation: landscape) {
+    .landscape-warning {
         display: none;
-      }
     }
+}
 
-    .header {
-      background: #087443;
-      color: white;
-      padding: 18px 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+.landscape-warning {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #111827;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+.warning-box {
+    max-width: 500px;
+}
 
-    .logo {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      background: white;
-      color: #087443;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 22px;
-    }
+.warning-box h2 {
+    font-size: 28px;
+}
+</style>
+</head>
 
-    .brand h1 {
-      margin: 0;
-      font-size: 24px;
-    }
+<body>
 
-    .brand p {
-      margin: 4px 0 0;
-      font-size: 15px;
-    }
+<div class="landscape-warning">
+    <div class="warning-box">
+        <h2>Silakan Putar HP</h2>
+        <p>
+            Sistem pemilihan dirancang menggunakan posisi
+            layar <b>LANDSCAPE</b>.
+        </p>
+        <p>Putar HP Anda ke posisi mendatar.</p>
+    </div>
+</div>
 
-    .dashboard {
-      background: white;
-      color: #087443;
-      border: none;
-      padding: 14px 22px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: bold;
-    }
+<div class="header">
+    <h1>PILKADES BANTARSARI</h1>
+    <p>Sistem Pemilihan Kepala Desa</p>
+</div>
 
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 35px 25px;
-    }
+<div class="container">
 
-    .title {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+    <div class="title">
+        <h2>PEMILIHAN KEPALA DESA</h2>
+        <p>Silakan pilih calon yang Anda kehendaki</p>
+    </div>
 
-    .title h2 {
-      font-size: 34px;
-      margin: 0;
-    }
+    <div class="candidate" onclick="openConfirm()">
 
-    .title p {
-      color: #718078;
-      font-size: 19px;
-      margin-top: 8px;
-    }
+        <!-- FOTO CALON -->
+        <img
+            src="file_00000000fb90820b81ffa0bf95981807.png"
+            class="photo"
+            alt="Calon Kepala Desa">
 
-    .instruction {
-      background: white;
-      border-radius: 18px;
-      padding: 25px;
-      text-align: center;
-      margin-bottom: 25px;
-      box-shadow: 0 3px 15px rgba(0,0,0,.08);
-    }
+        <div class="number">3</div>
 
-    .instruction h3 {
-      margin: 0 0 8px;
-      font-size: 24px;
-    }
+        <div class="name">
+            AGUS SOPIAN, S.T.
+        </div>
 
-    .instruction p {
-      margin: 0;
-      color: #68756f;
-      font-size: 17px;
-    }
+        <button class="button">
+            PILIH
+        </button>
 
-    .candidate-area {
-      background: white;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 3px 15px rgba(0,0,0,.08);
-    }
+    </div>
 
-    .candidate-title {
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
+</div>
 
-    .candidate {
-      border: 3px solid #d9e5df;
-      border-radius: 18px;
-      padding: 20px;
-      cursor: pointer;
-      transition: .2s;
-      max-width: 380px;
-      margin: auto;
-      text-align: center;
-    }
+<!-- MODAL KONFIRMASI -->
+<div class="modal" id="confirmModal">
 
-    .candidate:hover {
-      border-color: #087443;
-      transform: translateY(-2px);
-    }
+    <div class="modal-box">
 
-    .candidate img {
-      width: 220px;
-      height: 270px;
-      object-fit: cover;
-      border-radius: 15px;
-      border: 4px solid #087443;
-    }
+        <h2>Konfirmasi Pilihan</h2>
 
-    .number {
-      margin-top: 15px;
-      font-size: 42px;
-      font-weight: bold;
-      color: #087443;
-    }
+        <p>Anda memilih:</p>
 
-    .candidate h3 {
-      margin: 8px 0 3px;
-      font-size: 23px;
-    }
+        <h3>NOMOR 3</h3>
 
-    .candidate p {
-      margin: 0;
-      color: #68756f;
-    }
+        <p>
+            <b>AGUS SOPIAN, S.T.</b>
+        </p>
+
+        <p>
+            Apakah Anda yakin dengan pilihan Anda?
+        </p>
+
+        <div class="btn-row">
+
+            <button
+                class="btn repeat"
+                onclick="closeConfirm()">
+                ↩ ULANGI
+            </button>
+
+            <button
+                class="btn confirm"
+                onclick="saveVote()">
+                ✓ YA, PILIH
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL BERHASIL -->
+<div class="modal" id="successModal">
+
+    <div class="modal-box">
+
+        <h2>✓ SUARA TERSIMPAN</h2>
+
+        <p class="success">
+            Pilihan Anda telah tercatat.
+        </p>
+
+        <p>
+            Nomor calon: <b>3</b>
+        </p>
+
+        <p>
+            AGUS SOPIAN, S.T.
+        </p>
+
+        <p>
+            <small>SIMULASI / PROTOTYPE</small>
+        </p>
+
+        <button
+            class="button"
+            onclick="location.reload()">
+            SELESAI
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+function openConfirm() {
+    document.getElementById("confirmModal").style.display = "flex";
+}
+
+function closeConfirm() {
+    document.getElementById("confirmModal").style.display = "none";
+}
+
+function saveVote() {
+
+    localStorage.setItem(
+        "pilkades_bantarsari_vote",
+        JSON.stringify({
+            nomor: 3,
+            nama: "AGUS SOPIAN, S.T.",
+            waktu: new Date().toISOString()
+        })
+    );
+
+    document.getElementById("confirmModal").style.display = "none";
+
+    document.getElementById("successModal").style.display = "flex";
+}
+
+</script>
+
+</body>
+</html>
