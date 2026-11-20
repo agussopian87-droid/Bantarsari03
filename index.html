@@ -1,777 +1,198 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-               maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>Pilkades Bantarsari</title>
+  <title>Pilkades Bantarsari</title>
 
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f7f5;
+      color: #18382d;
+    }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f2f6f4;
-    color: #19352b;
-}
+    /* Peringatan jika HP portrait */
+    #landscapeWarning {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #075c3b;
+      color: white;
+      text-align: center;
+      padding: 30px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
 
-header {
-    background: #087443;
-    color: white;
-    padding: 14px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    #landscapeWarning h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+    #landscapeWarning p {
+      font-size: 18px;
+    }
 
-.logo-circle {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    background: white;
-    color: #087443;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 23px;
-    font-weight: bold;
-}
-
-.logo-title {
-    font-size: 23px;
-    font-weight: bold;
-}
-
-.logo-sub {
-    font-size: 15px;
-    margin-top: 3px;
-}
-
-button {
-    border: none;
-    border-radius: 10px;
-    padding: 14px 25px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.btn-green {
-    background: #087443;
-    color: white;
-}
-
-.btn-white {
-    background: white;
-    color: #087443;
-    border: 2px solid #087443;
-}
-
-.btn-red {
-    background: #b42318;
-    color: white;
-}
-
-main {
-    padding: 25px;
-    max-width: 1100px;
-    margin: auto;
-}
-
-.title {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.title h1 {
-    font-size: 30px;
-    margin: 5px;
-}
-
-.title p {
-    font-size: 19px;
-    color: #6b7773;
-}
-
-.card {
-    background: white;
-    border-radius: 18px;
-    padding: 25px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.08);
-}
-
-#reader {
-    width: 100%;
-    max-width: 850px;
-    margin: auto;
-}
-
-.camera-title {
-    text-align: center;
-    font-size: 25px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.status {
-    text-align: center;
-    font-size: 19px;
-    margin-top: 15px;
-    color: #087443;
-    font-weight: bold;
-}
-
-.candidate-area {
-    display: none;
-}
-
-.candidate-title {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 25px;
-}
-
-.candidate-card {
-    max-width: 400px;
-    margin: auto;
-    border: 4px solid #087443;
-    border-radius: 20px;
-    overflow: hidden;
-    background: white;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.candidate-card:active {
-    transform: scale(.98);
-}
-
-.candidate-card img {
-    width: 100%;
-    display: block;
-    aspect-ratio: 3/4;
-    object-fit: cover;
-}
-
-.candidate-info {
-    padding: 18px;
-    text-align: center;
-}
-
-.candidate-number {
-    font-size: 32px;
-    font-weight: bold;
-    color: #087443;
-}
-
-.candidate-name {
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 5px;
-}
-
-.instruction {
-    text-align: center;
-    margin-top: 18px;
-    font-size: 18px;
-    color: #68736f;
-}
-
-.receipt {
-    display: none;
-    text-align: center;
-}
-
-.success {
-    font-size: 60px;
-    margin-bottom: 10px;
-}
-
-.success-title {
-    font-size: 30px;
-    font-weight: bold;
-    color: #087443;
-}
-
-.receipt-box {
-    background: #f4f8f5;
-    border: 2px dashed #087443;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 500px;
-    border-radius: 12px;
-    text-align: left;
-}
-
-footer {
-    text-align: center;
-    padding: 30px;
-    color: #6c7773;
-}
-
-/* DIALOG */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,.65);
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-box {
-    background: white;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 5px 30px rgba(0,0,0,.3);
-}
-
-.modal-box h2 {
-    margin-top: 0;
-    font-size: 27px;
-}
-
-.modal-box p {
-    font-size: 20px;
-    color: #555;
-}
-
-.modal-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 25px;
-}
-
-.modal-buttons button {
-    min-width: 130px;
-}
-
-/* LANDSCAPE */
-@media screen and (orientation: portrait) {
-    body::before {
-        content: "Silakan putar perangkat ke posisi LANDSCAPE";
-        position: fixed;
-        z-index: 10000;
-        inset: 0;
-        background: #087443;
-        color: white;
+    @media (orientation: portrait) {
+      #landscapeWarning {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        font-size: 28px;
-        font-weight: bold;
-        padding: 30px;
-    }
-}
+      }
 
-@media screen and (max-width: 700px) {
-    header {
-        padding: 10px 15px;
+      .app {
+        display: none;
+      }
     }
 
-    .logo-title {
-        font-size: 18px;
+    .header {
+      background: #087443;
+      color: white;
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .logo-sub {
-        font-size: 13px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
-    .logo-circle {
-        width: 45px;
-        height: 45px;
-        font-size: 18px;
+    .logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: white;
+      color: #087443;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 22px;
     }
 
-    main {
-        padding: 12px;
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
     }
 
-    .title h1 {
-        font-size: 25px;
+    .brand p {
+      margin: 4px 0 0;
+      font-size: 15px;
+    }
+
+    .dashboard {
+      background: white;
+      color: #087443;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 35px 25px;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .title h2 {
+      font-size: 34px;
+      margin: 0;
     }
 
     .title p {
-        font-size: 16px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-
-    <div class="logo">
-        <div class="logo-circle">PB</div>
-
-        <div>
-            <div class="logo-title">
-                Pilkades Bantarsari
-            </div>
-
-            <div class="logo-sub">
-                Prototype / Simulasi V3
-            </div>
-        </div>
-    </div>
-
-    <button class="btn-white"
-            onclick="window.location.href='dashboard.html'">
-        Dashboard Panitia
-    </button>
-
-</header>
-
-<main>
-
-    <!-- ================= CAMERA ================= -->
-
-    <section id="scanArea">
-
-        <div class="title">
-
-            <h1>
-                PEMILIHAN KEPALA DESA
-            </h1>
-
-            <p>
-                Desa Bantarsari — Pemungutan Suara Digital
-            </p>
-
-        </div>
-
-        <div class="card">
-
-            <div class="camera-title">
-                Pindai QR Code Surat Undangan
-            </div>
-
-            <div id="reader"></div>
-
-            <div id="scanStatus" class="status">
-                Membuka kamera...
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= PILIH CALON ================= -->
-
-    <section id="candidateArea"
-             class="candidate-area">
-
-        <div class="title">
-
-            <h1>
-                PILIH CALON KEPALA DESA
-            </h1>
-
-            <p id="voterInfo">
-                QR Code berhasil diverifikasi
-            </p>
-
-        </div>
-
-        <div class="card">
-
-            <div class="candidate-title">
-                Silakan pilih calon Anda
-            </div>
-
-            <div class="candidate-card"
-                 onclick="openConfirmation()">
-
-                <!--
-                FOTO CALON NOMOR 3
-                Simpan foto dengan nama:
-                calon3.png
-                -->
-
-                <img src="calon3.jpg"
-                     alt="Calon Kepala Desa Nomor 3">
-
-                <div class="candidate-info">
-
-                    <div class="candidate-number">
-                        NOMOR URUT 3
-                    </div>
-
-                    <div class="candidate-name">
-                        AGUS SOPIAN, S.T.
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="instruction">
-                Klik foto calon untuk memilih.
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= SUARA TERSIMPAN ================= -->
-
-    <section id="receiptArea"
-             class="receipt">
-
-        <div class="card">
-
-            <div class="success">
-                ✓
-            </div>
-
-            <div class="success-title">
-                SUARA BERHASIL DISIMPAN
-            </div>
-
-            <p>
-                Terima kasih telah menggunakan
-                sistem pemungutan suara.
-            </p>
-
-            <div class="receipt-box">
-
-                <b>STATUS PEMILIHAN</b>
-
-                <hr>
-
-                <p>
-                    Status:
-                    <b style="color:#087443;">
-                        SUARA TERSIMPAN
-                    </b>
-                </p>
-
-                <p>
-                    Nomor Calon:
-                    <b>3</b>
-                </p>
-
-                <p>
-                    Waktu:
-                    <b id="voteTime"></b>
-                </p>
-
-            </div>
-
-            <button class="btn-green"
-                    onclick="location.reload()">
-                Selesai
-            </button>
-
-        </div>
-
-    </section>
-
-</main>
-
-<footer>
-    PROTOTYPE SIMULASI — bukan sistem pemungutan suara resmi.
-</footer>
-
-
-<!-- ================= KONFIRMASI ================= -->
-
-<div id="confirmModal"
-     class="modal">
-
-    <div class="modal-box">
-
-        <h2>
-            Konfirmasi Pilihan
-        </h2>
-
-        <p>
-            Apakah Anda yakin dengan pilihan Anda?
-        </p>
-
-        <p>
-            <b>
-                NOMOR URUT 3
-            </b>
-            <br>
-            AGUS SOPIAN, S.T.
-        </p>
-
-        <div class="modal-buttons">
-
-            <button class="btn-red"
-                    onclick="repeatChoice()">
-                ULANGI
-            </button>
-
-            <button class="btn-green"
-                    onclick="confirmVote()">
-                YA
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-let voterCode = "";
-let scanner = null;
-
-
-/* =========================================
-   MULAI SCANNER OTOMATIS
-========================================= */
-
-function startScanner() {
-
-    scanner = new Html5Qrcode("reader");
-
-    const config = {
-        fps: 10,
-
-        qrbox: function(viewfinderWidth,
-                        viewfinderHeight) {
-
-            const size =
-                Math.min(
-                    viewfinderWidth,
-                    viewfinderHeight
-                ) * 0.65;
-
-            return {
-                width: size,
-                height: size
-            };
-        }
-    };
-
-    scanner.start(
-
-        {
-            facingMode: "environment"
-        },
-
-        config,
-
-        onScanSuccess,
-
-        function(errorMessage) {
-            // kamera sedang mencari QR
-        }
-
-    ).then(function() {
-
-        document.getElementById(
-            "scanStatus"
-        ).innerText =
-            "Arahkan kamera ke QR Code surat undangan.";
-
-    }).catch(function(error) {
-
-        document.getElementById(
-            "scanStatus"
-        ).innerText =
-            "Kamera tidak dapat dibuka. Izinkan akses kamera.";
-
-        console.error(error);
-
-    });
-
-}
-
-
-/* =========================================
-   QR BERHASIL DIPINDAI
-========================================= */
-
-function onScanSuccess(decodedText) {
-
-    voterCode = decodedText;
-
-    /*
-      Untuk prototype kita menerima kode:
-      D1-1 sampai D3-5
-    */
-
-    if (
-        voterCode.startsWith("D1-") ||
-        voterCode.startsWith("D2-") ||
-        voterCode.startsWith("D3-")
-    ) {
-
-        stopScanner();
-
-        document.getElementById(
-            "scanArea"
-        ).style.display = "none";
-
-        document.getElementById(
-            "candidateArea"
-        ).style.display = "block";
-
-        document.getElementById(
-            "voterInfo"
-        ).innerText =
-            "QR Code berhasil dipindai — silakan memilih.";
-
-    } else {
-
-        document.getElementById(
-            "scanStatus"
-        ).innerText =
-            "QR Code tidak dikenali.";
-
+      color: #718078;
+      font-size: 19px;
+      margin-top: 8px;
     }
 
-}
-
-
-/* =========================================
-   STOP CAMERA
-========================================= */
-
-function stopScanner() {
-
-    if (scanner) {
-
-        scanner.stop()
-            .then(function() {
-                console.log("Scanner berhenti");
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
-
+    .instruction {
+      background: white;
+      border-radius: 18px;
+      padding: 25px;
+      text-align: center;
+      margin-bottom: 25px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.08);
     }
 
-}
-
-
-/* =========================================
-   BUKA KONFIRMASI
-========================================= */
-
-function openConfirmation() {
-
-    document.getElementById(
-        "confirmModal"
-    ).style.display = "flex";
-
-}
-
-
-/* =========================================
-   ULANGI PILIHAN
-========================================= */
-
-function repeatChoice() {
-
-    document.getElementById(
-        "confirmModal"
-    ).style.display = "none";
-
-}
-
-
-/* =========================================
-   KONFIRMASI YA
-========================================= */
-
-function confirmVote() {
-
-    document.getElementById(
-        "confirmModal"
-    ).style.display = "none";
-
-
-    /*
-       Simpan simulasi suara
-    */
-
-    const voteData = {
-
-        voter: voterCode,
-
-        candidate: "3",
-
-        candidateName:
-            "AGUS SOPIAN, S.T.",
-
-        time:
-            new Date().toISOString()
-
-    };
-
-
-    localStorage.setItem(
-        "vote_" + voterCode,
-        JSON.stringify(voteData)
-    );
-
-
-    document.getElementById(
-        "candidateArea"
-    ).style.display = "none";
-
-    document.getElementById(
-        "receiptArea"
-    ).style.display = "block";
-
-
-    document.getElementById(
-        "voteTime"
-    ).innerText =
-        new Date().toLocaleString(
-            "id-ID"
-        );
-
-}
-
-
-/* =========================================
-   JALANKAN KAMERA SAAT HALAMAN DIBUKA
-========================================= */
-
-window.addEventListener(
-    "load",
-    function() {
-
-        startScanner();
-
+    .instruction h3 {
+      margin: 0 0 8px;
+      font-size: 24px;
     }
-);
 
-</script>
+    .instruction p {
+      margin: 0;
+      color: #68756f;
+      font-size: 17px;
+    }
 
-</body>
-</html>
+    .candidate-area {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.08);
+    }
+
+    .candidate-title {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .candidate {
+      border: 3px solid #d9e5df;
+      border-radius: 18px;
+      padding: 20px;
+      cursor: pointer;
+      transition: .2s;
+      max-width: 380px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .candidate:hover {
+      border-color: #087443;
+      transform: translateY(-2px);
+    }
+
+    .candidate img {
+      width: 220px;
+      height: 270px;
+      object-fit: cover;
+      border-radius: 15px;
+      border: 4px solid #087443;
+    }
+
+    .number {
+      margin-top: 15px;
+      font-size: 42px;
+      font-weight: bold;
+      color: #087443;
+    }
+
+    .candidate h3 {
+      margin: 8px 0 3px;
+      font-size: 23px;
+    }
+
+    .candidate p {
+      margin: 0;
+      color: #68756f;
+    }
