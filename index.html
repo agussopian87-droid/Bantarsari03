@@ -1,315 +1,650 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pilkades Bantarsari</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>e-Voting Pilkades Bantarsari</title>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #eef2f1;
-    color: #222;
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background: #edf0f3;
+  overflow: hidden;
 }
 
-.header {
-    background: #116530;
-    color: white;
-    text-align: center;
-    padding: 15px;
+header {
+  height: 43px;
+  background: #123c2c;
+  color: white;
+  text-align: center;
+  padding: 4px;
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 28px;
+header h2 {
+  font-size: 18px;
+  margin: 0;
 }
 
-.header p {
-    margin: 5px 0 0;
+header p {
+  font-size: 10px;
+  margin: 2px;
 }
 
 .container {
-    padding: 20px;
-    max-width: 1100px;
-    margin: auto;
+  height: calc(100dvh - 43px);
+  width: 100%;
+  padding: 7px;
+  overflow: hidden;
 }
 
-.judul {
-    text-align: center;
-    margin-bottom: 20px;
+.panel {
+  height: 100%;
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  overflow: hidden;
 }
 
-.judul h2 {
-    margin: 0;
-    font-size: 27px;
+.hidden {
+  display: none !important;
 }
 
-.calon-container {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.calon {
-    width: 30%;
-    min-width: 220px;
-    background: white;
-    border-radius: 18px;
-    padding: 18px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,.15);
-    cursor: pointer;
-    transition: .2s;
+.primary {
+  background: #087443;
+  color: white;
 }
 
-.calon:hover {
-    transform: scale(1.03);
+.red {
+  background: #c62828;
+  color: white;
 }
 
-.foto {
-    width: 170px;
-    height: 190px;
-    object-fit: cover;
-    border-radius: 12px;
-    border: 3px solid #116530;
+.gray {
+  background: #687386;
+  color: white;
 }
 
-/* SILUET */
-.siluet {
-    width: 170px;
-    height: 190px;
-    border-radius: 12px;
-    background: #d1d5db;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
+.full {
+  width: 100%;
 }
 
-.siluet-icon {
-    width: 90px;
-    height: 125px;
-    position: relative;
+/* SCAN */
+
+#reader {
+  width: 100%;
+  max-width: 350px;
+  margin: 5px auto;
 }
 
-.siluet-icon::before {
-    content: "";
-    position: absolute;
-    width: 55px;
-    height: 55px;
-    background: #6b7280;
-    border-radius: 50%;
-    top: 0;
-    left: 18px;
+#scanSection {
+  text-align: center;
 }
 
-.siluet-icon::after {
-    content: "";
-    position: absolute;
-    width: 90px;
-    height: 75px;
-    background: #6b7280;
-    border-radius: 50px 50px 10px 10px;
-    bottom: 0;
-    left: 0;
+#scanSection h3 {
+  margin: 5px;
 }
 
-.nomor {
-    font-size: 42px;
-    font-weight: bold;
-    color: #116530;
-    margin-top: 8px;
+#scanStatus {
+  font-size: 12px;
+  color: #087443;
 }
 
-.nama {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 8px;
+/* CALON */
+
+#candidateSection {
+  text-align: center;
 }
 
-.pilih {
-    background: #116530;
-    color: white;
-    border: 0;
-    padding: 12px 28px;
-    border-radius: 9px;
-    font-size: 17px;
+#candidateSection h3 {
+  font-size: 17px;
+  margin: 3px;
+}
+
+.candidates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 700px;
+  margin: 8px auto;
+}
+
+.candidate {
+  border: 2px solid #d8dee7;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  min-width: 0;
+  background: white;
+}
+
+.candidate.selected {
+  border: 3px solid #087443;
+  background: #e8f6ed;
+}
+
+.photo,
+.placeholder {
+  width: 100%;
+  height: min(28vh, 125px);
+  object-fit: contain;
+  border-radius: 7px;
+  background: #edf0f3;
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 45px;
+  color: #888;
+}
+
+.number {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 4px;
+}
+
+.name {
+  font-size: 12px;
+  font-weight: bold;
+  min-height: 25px;
+}
+
+#pilihButton {
+  width: 100%;
+  padding: 13px;
+  margin-top: 3px;
 }
 
 /* MODAL */
+
 .modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.65);
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #000b;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
 }
 
 .modal-box {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  width: 100%;
+  max-width: 370px;
+}
+
+.modal-box img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  background: #eee;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.modal-buttons button {
+  flex: 1;
+}
+
+/* STRUK */
+
+#receiptSection {
+  text-align: center;
+}
+
+#receipt {
+  width: 100%;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+#qrcode {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+@media print {
+  @page {
+    size: 58mm auto;
+    margin: 2mm;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #receiptSection,
+  #receiptSection * {
+    visibility: visible;
+  }
+
+  #receiptSection {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 54mm;
+    height: auto;
     background: white;
-    width: 100%;
-    max-width: 430px;
-    padding: 30px;
-    border-radius: 18px;
-    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  #receipt {
+    font-family: monospace;
+    font-size: 11px;
+  }
+
+  .no-print {
+    display: none !important;
+  }
 }
 
-.modal-box h2 {
-    margin-top: 0;
-}
+/* WAJIB LANDSCAPE */
 
-.btn-container {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    margin-top: 25px;
-}
+@media screen and (orientation: portrait) {
+  header,
+  .container {
+    display: none !important;
+  }
 
-.btn {
-    border: 0;
-    padding: 13px 22px;
-    border-radius: 9px;
-    font-size: 16px;
-}
-
-.ulangi {
-    background: #ddd;
-}
-
-.ya {
-    background: #116530;
-    color: white;
-}
-
-.berhasil {
-    color: #116530;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-/* MODE PORTRAIT */
-@media (orientation: portrait) {
-
-    .portrait-warning {
-        display: flex;
-    }
-
-    .calon-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .calon {
-        width: 90%;
-    }
-}
-
-@media (orientation: landscape) {
-    .portrait-warning {
-        display: none;
-    }
-}
-
-.portrait-warning {
-    display: none;
+  body::after {
+    content: "↻\A SILAKAN PUTAR HP ANDA\A KE POSISI HORIZONTAL";
+    white-space: pre-line;
     position: fixed;
-    z-index: 9999;
     inset: 0;
-    background: #111827;
+    background: #123c2c;
     color: white;
+    display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 30px;
+    font-size: 23px;
+    font-weight: bold;
+    line-height: 2;
+    z-index: 9999;
+    padding: 20px;
+  }
 }
 
-.warning-box {
-    max-width: 500px;
-}
+/* PENYESUAIAN LAYAR PENDEK */
 
-.warning-box h2 {
-    font-size: 28px;
+@media screen and (orientation: landscape) and (max-height: 380px) {
+  header {
+    height: 35px;
+  }
+
+  header h2 {
+    font-size: 15px;
+  }
+
+  .container {
+    height: calc(100dvh - 35px);
+    padding: 4px;
+  }
+
+  .panel {
+    padding: 5px;
+  }
+
+  .candidates {
+    margin: 4px auto;
+    gap: 7px;
+  }
+
+  .photo,
+  .placeholder {
+    height: 85px;
+  }
+
+  .number {
+    font-size: 18px;
+    margin: 2px;
+  }
+
+  .name {
+    font-size: 10px;
+  }
+
+  #pilihButton {
+    padding: 9px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- PERINGATAN HP HARUS LANDSCAPE -->
-<div class="portrait-warning">
-    <div class="warning-box">
-        <h2>PUTAR HP ANDA</h2>
-        <p>
-            Sistem pemilihan menggunakan posisi
-            <b>LANDSCAPE</b>.
-        </p>
-        <p>Silakan putar HP ke posisi mendatar.</p>
-    </div>
-</div>
-
-<header class="header">
-    <h1>PILKADES BANTARSARI</h1>
-    <p>Pemilihan Kepala Desa</p>
+<header>
+  <h2>PILKADES BANTARSARI</h2>
+  <p>PEMILIHAN KEPALA DESA BANTARSARI</p>
 </header>
 
 <div class="container">
 
-    <div class="judul">
-        <h2>PILIH CALON KEPALA DESA</h2>
-        <p>Silakan pilih salah satu calon</p>
+  <!-- SCAN UNDANGAN -->
+  <section id="scanSection" class="panel">
+    <h3>SCAN BARCODE KARTU UNDANGAN</h3>
+
+    <p>Arahkan kamera ke barcode kartu undangan.</p>
+
+    <div id="reader"></div>
+
+    <p id="scanStatus">Menunggu pemindaian...</p>
+
+    <button class="primary full" onclick="mulaiScan()">
+      MULAI SCAN
+    </button>
+
+    <p style="font-size:11px">Atau masukkan kode contoh:</p>
+
+    <input id="manualCode" placeholder="Kode undangan"
+      style="width:100%;padding:10px;border:1px solid #ccc;border-radius:7px">
+
+    <button class="gray full" onclick="manualScan()">
+      LANJUTKAN
+    </button>
+  </section>
+
+  <!-- PEMILIHAN CALON -->
+  <section id="candidateSection" class="panel hidden">
+
+    <h3>SILAKAN PILIH CALON</h3>
+
+    <div class="candidates">
+
+      <div class="candidate" onclick="pilih(1)">
+        <div class="placeholder">👤</div>
+        <div class="number">1</div>
+        <div class="name">CALON NOMOR 1</div>
+      </div>
+
+      <div class="candidate" onclick="pilih(2)">
+        <div class="placeholder">👤</div>
+        <div class="number">2</div>
+        <div class="name">CALON NOMOR 2</div>
+      </div>
+
+      <div class="candidate" onclick="pilih(3)">
+        <img src="calon3.png" class="photo" alt="Agus Sopian">
+        <div class="number">3</div>
+        <div class="name">AGUS SOPIAN, S.T.</div>
+      </div>
+
     </div>
 
-    <div class="calon-container">
+    <button id="pilihButton" class="red full"
+      onclick="konfirmasi()" disabled>
+      PILIH KANDIDAT INI
+    </button>
 
-        <!-- CALON 1 -->
-        <div class="calon" onclick="pilihCalon(1, 'CALON NOMOR 1')">
+  </section>
 
-            <div class="siluet">
-                <div class="siluet-icon"></div>
-            </div>
+  <!-- STRUK -->
+  <section id="receiptSection" class="panel hidden">
 
-            <div class="nomor">1</div>
+    <div id="receipt">
+      <h3>PILKADES BANTARSARI</h3>
+      <p>BUKTI PEMUNGUTAN SUARA</p>
+      <hr>
 
-            <div class="nama">
-                CALON NOMOR 1
-            </div>
+      <p>STATUS: BERHASIL</p>
+      <p id="tanggal"></p>
+      <p id="kodeTransaksi"></p>
 
-            <button class="pilih">
-                PILIH
-            </button>
+      <div id="qrcode"></div>
 
-        </div>
+      <p>QR CODE BUKTI TRANSAKSI</p>
+      <hr>
+      <p>TERIMA KASIH</p>
+      <p>DESA BANTARSARI</p>
+    </div>
 
+    <button class="primary full no-print"
+      onclick="window.print()">
+      CETAK STRUK THERMAL
+    </button>
 
-        <!-- CALON 2 -->
-        <div class="calon" onclick="pilihCalon(2, 'CALON NOMOR 2')">
+    <button class="gray full no-print"
+      style="margin-top:8px" onclick="ulang()">
+      KEMBALI KE SCAN
+    </button>
 
-            <div class="siluet">
-                <div class="siluet-icon"></div>
-            </div>
+  </section>
 
-            <div class="nomor">2</div>
+</div>
 
-            <div class="nama">
-                CALON NOMOR 2
-            </div>
+<!-- KONFIRMASI -->
+<div id="modal" class="modal">
+  <div class="modal-box">
 
-            <button class="pilih">
-                PILIH
-            </button>
+    <h3>YAKIN DENGAN PILIHAN ANDA?</h3>
 
-        </div>
+    <img id="fotoKonfirmasi" src="" alt="Foto calon">
 
+    <h2 id="nomorKonfirmasi"></h2>
+    <h3 id="namaKonfirmasi"></h3>
 
-        <!-- CALON 3 -->
-        <div class="calon" onclick="pilihCalon(3, 'AGUS SOPIAN, S.T.')">
+    <div class="modal-buttons">
+      <button class="gray" onclick="tutupModal()">ULANGI</button>
+      <button class="primary" onclick="simpan()">SIMPAN</button>
+    </div>
 
-            <img
-                src="file_000
+  </div>
+</div>
+
+<script>
+let scanner = null;
+let calonDipilih = 0;
+
+const calon = {
+  1: {nama:"CALON NOMOR 1", foto:""},
+  2: {nama:"CALON NOMOR 2", foto:""},
+  3: {nama:"AGUS SOPIAN, S.T.", foto:"calon3.png"}
+};
+
+function halaman(id) {
+  document.getElementById("scanSection").classList.add("hidden");
+  document.getElementById("candidateSection").classList.add("hidden");
+  document.getElementById("receiptSection").classList.add("hidden");
+
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function manualScan() {
+  let kode = document.getElementById("manualCode").value.trim();
+
+  if (!kode) {
+    alert("Masukkan kode terlebih dahulu.");
+    return;
+  }
+
+  masukPemilihan();
+}
+
+async function mulaiScan() {
+  if (typeof Html5Qrcode === "undefined") {
+    alert("Library scanner tidak tersedia. Periksa internet.");
+    return;
+  }
+
+  try {
+    if (!scanner) scanner = new Html5Qrcode("reader");
+
+    let cameras = await Html5Qrcode.getCameras();
+
+    if (!cameras.length) {
+      alert("Kamera tidak ditemukan.");
+      return;
+    }
+
+    let camera = cameras.find(c =>
+      /back|rear|environment/i.test(c.label)
+    ) || cameras[0];
+
+    await scanner.start(
+      camera.id,
+      {fps:10, qrbox:{width:220,height:160}},
+      async (kode) => {
+        await scanner.stop();
+        masukPemilihan();
+      },
+      () => {}
+    );
+
+    document.getElementById("scanStatus").textContent =
+      "Kamera aktif. Arahkan ke barcode.";
+
+  } catch (e) {
+    alert("Kamera tidak dapat dibuka. Gunakan HTTPS.");
+  }
+}
+
+function masukPemilihan() {
+  calonDipilih = 0;
+
+  document.querySelectorAll(".candidate").forEach(el => {
+    el.classList.remove("selected");
+  });
+
+  document.getElementById("pilihButton").disabled = true;
+
+  halaman("candidateSection");
+}
+
+function pilih(nomor) {
+  calonDipilih = nomor;
+
+  document.querySelectorAll(".candidate").forEach(el => {
+    el.classList.remove("selected");
+  });
+
+  document.querySelectorAll(".candidate")[nomor-1]
+    .classList.add("selected");
+
+  document.getElementById("pilihButton").disabled = false;
+}
+
+function konfirmasi() {
+  if (!calonDipilih) return;
+
+  document.getElementById("nomorKonfirmasi").textContent =
+    "NOMOR URUT " + calonDipilih;
+
+  document.getElementById("namaKonfirmasi").textContent =
+    calon[calonDipilih].nama;
+
+  const foto = document.getElementById("fotoKonfirmasi");
+
+  if (calon[calonDipilih].foto) {
+    foto.src = calon[calonDipilih].foto;
+    foto.style.display = "block";
+  } else {
+    foto.style.display = "none";
+  }
+
+  document.getElementById("modal").style.display = "flex";
+}
+
+function tutupModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+function simpan() {
+  if (!calonDipilih) return;
+
+  const tombol = document.querySelector(
+    "#modal .primary"
+  );
+
+  tombol.disabled = true;
+
+  try {
+    const sekarang = new Date();
+    const kode = "BT-" + sekarang.getTime().toString().slice(-10);
+
+    // DEMO SAJA: simpan data di browser lokal.
+    // Data pilihan tidak dicetak pada struk.
+    const suara = {
+      transaksi: kode,
+      nomorCalon: calonDipilih,
+      waktu: sekarang.toISOString()
+    };
+
+    const daftar = JSON.parse(
+      localStorage.getItem("demo_suara_bantarsari") || "[]"
+    );
+
+    daftar.push(suara);
+
+    localStorage.setItem(
+      "demo_suara_bantarsari",
+      JSON.stringify(daftar)
+    );
+
+    document.getElementById("modal").style.display = "none";
+
+    document.getElementById("tanggal").textContent =
+      sekarang.toLocaleString("id-ID");
+
+    document.getElementById("kodeTransaksi").textContent =
+      "KODE: " + kode;
+
+    const area = document.getElementById("qrcode");
+    area.innerHTML = "";
+
+    new QRCode(area, {
+      text: kode,
+      width: 110,
+      height: 110
+    });
+
+    halaman("receiptSection");
+
+  } catch (e) {
+    alert("Gagal menyimpan data.");
+  } finally {
+    tombol.disabled = false;
+  }
+}
+
+function ulang() {
+  calonDipilih = 0;
+  document.getElementById("manualCode").value = "";
+  halaman("scanSection");
+}
+</script>
+
+</body>
+</html>
