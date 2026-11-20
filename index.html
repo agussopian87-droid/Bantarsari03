@@ -13,15 +13,15 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f1f5f9;
-    color: #111827;
+    background: #eef2f1;
+    color: #222;
 }
 
 .header {
-    background: #166534;
+    background: #116530;
     color: white;
-    padding: 15px 25px;
     text-align: center;
+    padding: 15px;
 }
 
 .header h1 {
@@ -34,72 +34,119 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    padding: 20px;
+    max-width: 1100px;
     margin: auto;
-    padding: 25px;
 }
 
-.title {
+.judul {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
-.title h2 {
+.judul h2 {
     margin: 0;
-    font-size: 28px;
+    font-size: 27px;
 }
 
-.candidate {
+.calon-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.calon {
+    width: 30%;
+    min-width: 220px;
     background: white;
     border-radius: 18px;
-    padding: 25px;
-    max-width: 400px;
-    margin: auto;
+    padding: 18px;
     text-align: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 15px rgba(0,0,0,.15);
     cursor: pointer;
+    transition: .2s;
 }
 
-.candidate:hover {
-    transform: scale(1.02);
+.calon:hover {
+    transform: scale(1.03);
 }
 
-.photo {
-    width: 220px;
-    height: 260px;
+.foto {
+    width: 170px;
+    height: 190px;
     object-fit: cover;
     border-radius: 12px;
-    border: 4px solid #166534;
+    border: 3px solid #116530;
 }
 
-.number {
-    font-size: 50px;
+/* SILUET */
+.siluet {
+    width: 170px;
+    height: 190px;
+    border-radius: 12px;
+    background: #d1d5db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.siluet-icon {
+    width: 90px;
+    height: 125px;
+    position: relative;
+}
+
+.siluet-icon::before {
+    content: "";
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    background: #6b7280;
+    border-radius: 50%;
+    top: 0;
+    left: 18px;
+}
+
+.siluet-icon::after {
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 75px;
+    background: #6b7280;
+    border-radius: 50px 50px 10px 10px;
+    bottom: 0;
+    left: 0;
+}
+
+.nomor {
+    font-size: 42px;
     font-weight: bold;
-    color: #166534;
-    margin-top: 10px;
+    color: #116530;
+    margin-top: 8px;
 }
 
-.name {
-    font-size: 24px;
+.nama {
+    font-size: 20px;
     font-weight: bold;
-    margin: 8px 0 15px;
+    margin: 8px;
 }
 
-.button {
-    background: #166534;
+.pilih {
+    background: #116530;
     color: white;
-    border: none;
-    padding: 14px 30px;
-    border-radius: 10px;
-    font-size: 18px;
-    cursor: pointer;
+    border: 0;
+    padding: 12px 28px;
+    border-radius: 9px;
+    font-size: 17px;
 }
 
+/* MODAL */
 .modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0,0,0,.65);
     justify-content: center;
     align-items: center;
     padding: 20px;
@@ -107,10 +154,10 @@ body {
 
 .modal-box {
     background: white;
+    width: 100%;
+    max-width: 430px;
     padding: 30px;
     border-radius: 18px;
-    max-width: 450px;
-    width: 100%;
     text-align: center;
 }
 
@@ -118,7 +165,7 @@ body {
     margin-top: 0;
 }
 
-.btn-row {
+.btn-container {
     display: flex;
     gap: 12px;
     justify-content: center;
@@ -126,44 +173,55 @@ body {
 }
 
 .btn {
+    border: 0;
     padding: 13px 22px;
     border-radius: 9px;
-    border: none;
     font-size: 16px;
-    cursor: pointer;
 }
 
-.repeat {
-    background: #e5e7eb;
+.ulangi {
+    background: #ddd;
 }
 
-.confirm {
-    background: #166534;
+.ya {
+    background: #116530;
     color: white;
 }
 
-.success {
-    color: #166534;
+.berhasil {
+    color: #116530;
     font-size: 22px;
     font-weight: bold;
 }
 
+/* MODE PORTRAIT */
 @media (orientation: portrait) {
-    .landscape-warning {
+
+    .portrait-warning {
         display: flex;
+    }
+
+    .calon-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .calon {
+        width: 90%;
     }
 }
 
 @media (orientation: landscape) {
-    .landscape-warning {
+    .portrait-warning {
         display: none;
     }
 }
 
-.landscape-warning {
+.portrait-warning {
+    display: none;
     position: fixed;
-    inset: 0;
     z-index: 9999;
+    inset: 0;
     background: #111827;
     color: white;
     align-items: center;
@@ -184,150 +242,74 @@ body {
 
 <body>
 
-<div class="landscape-warning">
+<!-- PERINGATAN HP HARUS LANDSCAPE -->
+<div class="portrait-warning">
     <div class="warning-box">
-        <h2>Silakan Putar HP</h2>
+        <h2>PUTAR HP ANDA</h2>
         <p>
-            Sistem pemilihan dirancang menggunakan posisi
-            layar <b>LANDSCAPE</b>.
+            Sistem pemilihan menggunakan posisi
+            <b>LANDSCAPE</b>.
         </p>
-        <p>Putar HP Anda ke posisi mendatar.</p>
+        <p>Silakan putar HP ke posisi mendatar.</p>
     </div>
 </div>
 
-<div class="header">
+<header class="header">
     <h1>PILKADES BANTARSARI</h1>
-    <p>Sistem Pemilihan Kepala Desa</p>
-</div>
+    <p>Pemilihan Kepala Desa</p>
+</header>
 
 <div class="container">
 
-    <div class="title">
-        <h2>PEMILIHAN KEPALA DESA</h2>
-        <p>Silakan pilih calon yang Anda kehendaki</p>
+    <div class="judul">
+        <h2>PILIH CALON KEPALA DESA</h2>
+        <p>Silakan pilih salah satu calon</p>
     </div>
 
-    <div class="candidate" onclick="openConfirm()">
+    <div class="calon-container">
 
-        <!-- FOTO CALON -->
-        <img
-            src="file_00000000fb90820b81ffa0bf95981807.png"
-            class="photo"
-            alt="Calon Kepala Desa">
+        <!-- CALON 1 -->
+        <div class="calon" onclick="pilihCalon(1, 'CALON NOMOR 1')">
 
-        <div class="number">3</div>
+            <div class="siluet">
+                <div class="siluet-icon"></div>
+            </div>
 
-        <div class="name">
-            AGUS SOPIAN, S.T.
-        </div>
+            <div class="nomor">1</div>
 
-        <button class="button">
-            PILIH
-        </button>
+            <div class="nama">
+                CALON NOMOR 1
+            </div>
 
-    </div>
-
-</div>
-
-<!-- MODAL KONFIRMASI -->
-<div class="modal" id="confirmModal">
-
-    <div class="modal-box">
-
-        <h2>Konfirmasi Pilihan</h2>
-
-        <p>Anda memilih:</p>
-
-        <h3>NOMOR 3</h3>
-
-        <p>
-            <b>AGUS SOPIAN, S.T.</b>
-        </p>
-
-        <p>
-            Apakah Anda yakin dengan pilihan Anda?
-        </p>
-
-        <div class="btn-row">
-
-            <button
-                class="btn repeat"
-                onclick="closeConfirm()">
-                ↩ ULANGI
-            </button>
-
-            <button
-                class="btn confirm"
-                onclick="saveVote()">
-                ✓ YA, PILIH
+            <button class="pilih">
+                PILIH
             </button>
 
         </div>
 
-    </div>
 
-</div>
+        <!-- CALON 2 -->
+        <div class="calon" onclick="pilihCalon(2, 'CALON NOMOR 2')">
 
-<!-- MODAL BERHASIL -->
-<div class="modal" id="successModal">
+            <div class="siluet">
+                <div class="siluet-icon"></div>
+            </div>
 
-    <div class="modal-box">
+            <div class="nomor">2</div>
 
-        <h2>✓ SUARA TERSIMPAN</h2>
+            <div class="nama">
+                CALON NOMOR 2
+            </div>
 
-        <p class="success">
-            Pilihan Anda telah tercatat.
-        </p>
+            <button class="pilih">
+                PILIH
+            </button>
 
-        <p>
-            Nomor calon: <b>3</b>
-        </p>
+        </div>
 
-        <p>
-            AGUS SOPIAN, S.T.
-        </p>
 
-        <p>
-            <small>SIMULASI / PROTOTYPE</small>
-        </p>
+        <!-- CALON 3 -->
+        <div class="calon" onclick="pilihCalon(3, 'AGUS SOPIAN, S.T.')">
 
-        <button
-            class="button"
-            onclick="location.reload()">
-            SELESAI
-        </button>
-
-    </div>
-
-</div>
-
-<script>
-
-function openConfirm() {
-    document.getElementById("confirmModal").style.display = "flex";
-}
-
-function closeConfirm() {
-    document.getElementById("confirmModal").style.display = "none";
-}
-
-function saveVote() {
-
-    localStorage.setItem(
-        "pilkades_bantarsari_vote",
-        JSON.stringify({
-            nomor: 3,
-            nama: "AGUS SOPIAN, S.T.",
-            waktu: new Date().toISOString()
-        })
-    );
-
-    document.getElementById("confirmModal").style.display = "none";
-
-    document.getElementById("successModal").style.display = "flex";
-}
-
-</script>
-
-</body>
-</html>
+            <img
+                src="file_000
