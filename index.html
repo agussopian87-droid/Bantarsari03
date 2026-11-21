@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#123c2c">
-<title>e-Voting Pilkades Bantarsari</title>
+<title>Simulasi e-Voting Pilkades Bantarsari</title>
 
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -26,7 +26,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .gray{background:#687386;color:#fff}
 .full{width:100%}
 
-/* SCAN UNDANGAN */
+/* HALAMAN SCAN UNDANGAN */
 #scanSection{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
 #scanSection h3{font-size:18px;margin:2px 0}
 #scanSection p{margin:0;font-size:13px}
@@ -37,7 +37,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .manual-area{width:min(100%,520px);display:flex;gap:7px}
 .manual-area input{min-width:0;flex:1;padding:11px;border:1px solid #cbd2dc;border-radius:8px;font-size:14px}
 
-/* PILIH CALON */
+/* HALAMAN PILIH CALON */
 #candidateSection{display:flex;flex-direction:column;text-align:center}
 #candidateSection h3{font-size:20px;margin:2px 0 8px;flex:0 0 auto}
 .candidates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:min(100%,900px);margin:0 auto;flex:0 0 auto}
@@ -51,7 +51,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .name{font-size:clamp(10px,1.8vh,14px);font-weight:bold;min-height:25px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.15}
 #pilihButton{width:100%;padding:15px 12px;margin-top:auto;flex:0 0 auto;font-size:clamp(15px,2.5vh,20px);min-height:54px}
 
-/* BUKTI TRANSAKSI */
+/* HALAMAN BUKTI TRANSAKSI SIMULASI */
 #receiptSection{display:flex;align-items:center;justify-content:center}
 .receipt-layout{width:100%;height:100%;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:25px}
 .receipt-left{flex:0 0 48%;max-width:48%;text-align:center;font-family:monospace;font-size:12px;color:#111}
@@ -63,7 +63,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .quote-box{width:100%;min-height:90px;padding:12px;display:flex;align-items:center;justify-content:center;text-align:center;background:#e8f3ec;border:2px solid #087443;border-radius:10px;color:#123c2c;font-size:clamp(14px,2vw,18px);font-weight:bold;line-height:1.5}
 #returnButton{width:100%;min-height:62px;font-size:clamp(12px,1.8vw,16px);line-height:1.35;padding:10px}
 
-/* KONFIRMASI: FOTO KIRI, IDENTITAS KANAN */
+/* KONFIRMASI PILIHAN */
 .modal{display:none;position:fixed;inset:0;background:#000b;z-index:100;align-items:center;justify-content:center;padding:10px}
 .modal-box{background:#fff;border-radius:14px;padding:20px;text-align:center;width:min(92vw,650px);max-height:94dvh;overflow:auto}
 .confirm-title{font-size:clamp(17px,2.8vw,24px);text-align:center;margin:4px 0 20px}
@@ -77,55 +77,241 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .modal-buttons{display:flex;gap:12px;margin-top:20px}
 .modal-buttons button{flex:1;min-height:52px;font-size:16px}
 
-/* CETAK STRUK */
-@media print{
- @page{size:58mm auto;margin:2mm}
- html,body{height:auto!important;overflow:visible!important;background:#fff!important}
- body *{visibility:hidden!important}
- #receiptSection,#receiptSection *{visibility:visible!important}
- #receiptSection{display:block!important;position:absolute!important;top:0!important;left:0!important;width:54mm!important;height:auto!important;padding:0!important;margin:0!important;background:#fff!important;overflow:visible!important;border-radius:0!important}
- .receipt-layout{display:block!important;width:54mm!important;height:auto!important}
- .receipt-left{display:block!important;width:54mm!important;max-width:54mm!important;font-size:11px!important}
- .receipt-left h3{font-size:13px!important}
- #qrcode{min-height:0!important}
- #qrcode img,#qrcode canvas{max-width:100px!important}
- .receipt-actions{display:none!important}
-}
+/* LAYAR PENUH UNTUK SEMUA HALAMAN */
+body.app-fullscreen{width:100vw;height:100dvh;overflow:hidden}
+body.app-fullscreen header{display:none!important}
+body.app-fullscreen .container{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;padding:0!important;margin:0!important;overflow:hidden!important}
+body.app-fullscreen .panel{width:100vw!important;height:100dvh!important;min-height:100dvh!important;border-radius:0!important;padding:clamp(10px,2vw,22px)!important;overflow:hidden!important}
+body.app-fullscreen #candidateSection{justify-content:space-between}
+body.app-fullscreen .candidates{width:100%;max-width:1100px;flex:1 1 auto;min-height:0;align-items:center}
+body.app-fullscreen .candidate{height:100%;justify-content:center}
+body.app-fullscreen .photo-frame,body.app-fullscreen .placeholder{height:min(48vh,330px)}
+body.app-fullscreen #pilihButton{flex:0 0 auto;min-height:58px;margin-top:12px}
+body.app-fullscreen #receiptSection{align-items:center;justify-content:center}
+body.app-fullscreen .receipt-layout{max-width:1100px;margin:auto}
+body.app-fullscreen .modal{position:fixed!important;inset:0!important;padding:0!important}
+body.app-fullscreen .modal-box{width:100vw!important;height:100dvh!important;max-width:none!important;max-height:none!important;border-radius:0!important;display:flex;flex-direction:column;justify-content:center;padding:clamp(18px,4vw,40px)}
+body.app-fullscreen .confirm-content{flex:1 1 auto;max-height:55dvh}
+body.app-fullscreen .confirm-photo{height:min(45dvh,360px)}
+body.app-fullscreen .modal-buttons{width:100%;max-width:700px;margin:20px auto 0}
+body.app-fullscreen .modal-buttons button{min-height:60px}
 
-/* LANDSCAPE */
+/* KAMERA MEMENUHI LAYAR */
+body.scan-active #scanSection{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;border-radius:0!important;padding:0!important;margin:0!important;background:#000!important;overflow:hidden!important;z-index:501!important}
+body.scan-active #scanSection h3{position:absolute;top:max(12px,env(safe-area-inset-top));left:12px;right:12px;z-index:5;color:#fff;font-size:clamp(17px,2.5vw,23px);text-shadow:0 1px 5px #000}
+body.scan-active #scanSection>p:not(#scanStatus){position:absolute;top:48px;left:12px;right:12px;z-index:5;color:#fff;text-shadow:0 1px 5px #000}
+body.scan-active #reader{position:absolute!important;inset:0!important;width:100vw!important;height:100dvh!important;max-width:none!important;margin:0!important;border:0!important;border-radius:0!important;background:#000!important}
+body.scan-active #reader video{width:100%!important;height:100%!important;object-fit:cover!important}
+body.scan-active #reader__scan_region{width:100%!important;min-height:100%!important}
+body.scan-active #scanStatus{position:absolute;bottom:0;left:0;right:0;z-index:10;background:#fff;color:#087443!important;padding:14px 8px max(14px,env(safe-area-inset-bottom));font-weight:bold;text-align:center}
+body.scan-active .scan-actions,body.scan-active .manual-area,body.scan-active #scanSection label,body.scan-active #barcodeFile{display:none!important}
+
+/* HP TEGAK */
 @media screen and (orientation:portrait){
- header,.container{display:none!important}
- body:after{content:"↻\A SILAKAN PUTAR HP ANDA\A KE POSISI HORIZONTAL";white-space:pre-line;position:fixed;inset:0;background:#123c2c;color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-size:23px;font-weight:bold;line-height:2;z-index:9999;padding:20px}
+ body.app-fullscreen #candidateSection .candidates{gap:6px}
+ body.app-fullscreen #candidateSection .candidate{padding:5px 3px}
+ body.app-fullscreen #candidateSection .photo-frame,body.app-fullscreen #candidateSection .placeholder{height:min(24vh,210px)}
+ body.app-fullscreen #candidateSection .number{font-size:clamp(18px,4vw,25px)}
+ body.app-fullscreen #candidateSection .name{font-size:clamp(9px,2.4vw,13px)}
+ body.app-fullscreen .receipt-layout{gap:10px}
+ body.app-fullscreen .receipt-left{flex-basis:46%;max-width:46%;font-size:clamp(9px,2.2vw,12px)}
+ body.app-fullscreen .receipt-actions{flex-basis:48%;max-width:48%;gap:12px}
+ body.app-fullscreen .quote-box{font-size:clamp(13px,3vw,17px);padding:10px}
+ body.app-fullscreen #returnButton{font-size:clamp(11px,2.6vw,15px);min-height:58px}
+ body.app-fullscreen .confirm-content{gap:12px}
+ body.app-fullscreen .confirm-photo{flex-basis:38%;max-width:38%;height:min(35vh,250px)}
+ body.app-fullscreen .confirm-number{font-size:clamp(18px,4.2vw,25px)}
+ body.app-fullscreen .confirm-name{font-size:clamp(21px,5vw,31px)}
 }
 
-@media screen and (orientation:landscape) and (max-height:430px){
- header{height:39px;padding:3px}
- header h2{font-size:16px;line-height:17px}
- .container{height:calc(100dvh - 39px);padding:5px}
- .panel{padding:7px}
- .candidates{gap:7px}
- .photo-frame,.placeholder{height:clamp(80px,22vh,125px)}
- #candidateSection h3{font-size:17px;margin-bottom:5px}
- #pilihButton{min-height:44px;padding:9px}
- .number{font-size:19px}
- .name{font-size:10px;min-height:21px}
- #scanSection{gap:5px}
- #reader{height:clamp(115px,34vh,175px)}
- .receipt-layout{gap:14px}
- .receipt-left{font-size:10px}
- .receipt-left h3{font-size:14px}
- #qrcode{margin:5px auto;min-height:90px}
- #qrcode img,#qrcode canvas{max-width:90px}
- .receipt-actions{gap:10px}
- .quote-box{min-height:78px;padding:8px;font-size:14px}
- #returnButton{min-height:52px}
- .modal-box{width:min(90vw,620px);padding:14px}
- .confirm-title{margin:2px 0 12px;font-size:18px}
- .confirm-content{min-height:140px;gap:15px}
- .confirm-photo{height:140px}
- .confirm-number{font-size:22px}
- .confirm-name{font-size:27px}
- .modal-buttons{margin-top:14px}
+/* HP LANDSCAPE */
+@media screen and (orientation:landscape) and (max-height:500px){
+ body.app-fullscreen .panel{padding:8px!important}
+ body.app-fullscreen .photo-frame,body.app-fullscreen .placeholder{height:min(43vh,190px)}
+ body.app-fullscreen #pilihButton{min-height:45px;margin-top:6px}
+ body.app-fullscreen .receipt-layout{gap:14px}
+ body.app-fullscreen .receipt-left{font-size:10px}
+ body.app-fullscreen #qrcode{min-height:75px;margin:4px auto}
+ body.app-fullscreen #qrcode img,body.app-fullscreen #qrcode canvas{max-width:80px}
+ body.app-fullscreen .quote-box{min-height:70px;padding:8px;font-size:14px}
+ body.app-fullscreen #returnButton{min-height:48px}
+ body.app-fullscreen .modal-box{padding:12px}
+ body.app-fullscreen .confirm-title{margin:0 0 8px}
+ body.app-fullscreen .confirm-content{min-height:0}
+ body.app-fullscreen .confirm-photo{height:min(38vh,135px)}
+ body.app-fullscreen .confirm-name{font-size:clamp(20px,3vw,28px)}
+ body.app-fullscreen .modal-buttons{margin-top:10px}
+ body.app-fullscreen .modal-buttons button{min-height:44px}
+}
+
+/* MENU TANPA BARCODE */
+.scan-actions{grid-template-columns:1fr 1fr}
+.no-barcode{grid-column:1/-1;width:100%;background:#f0b429;color:#18212f;border:2px solid #d69b12;min-height:48px}
+
+/* TAMPILAN SURAT SUARA */
+#candidateSection{
+ background:linear-gradient(180deg,#f02a32 0%,#f9b4b8 20%,#f8f9fc 48%,#d7e8ff 100%)!important;
+ position:fixed!important;
+ inset:0!important;
+ width:100vw!important;
+ height:100dvh!important;
+ min-height:100dvh!important;
+ padding:0!important;
+ border-radius:0!important;
+ overflow:hidden!important;
+ display:flex;
+ flex-direction:column;
+ align-items:stretch;
+ justify-content:flex-start;
+ text-align:center;
+}
+#candidateSection.hidden{display:none!important}
+#candidateSection .ballot-header{
+ position:relative;
+ flex:0 0 25%;
+ min-height:170px;
+ width:100%;
+ padding:clamp(14px,2.4vh,30px) 12px 4px;
+ color:#172033;
+ text-align:center;
+}
+#candidateSection .ballot-room{
+ position:absolute;
+ top:clamp(14px,2vh,28px);
+ left:clamp(16px,3vw,30px);
+ font-size:clamp(12px,1.8vw,17px);
+ font-weight:bold;
+}
+#candidateSection .ballot-emblem{
+ width:clamp(48px,7vh,76px);
+ height:clamp(48px,7vh,76px);
+ margin:0 auto 5px;
+ border-radius:12px;
+ border:2px solid #e6c34d;
+ background:#147b4b;
+ color:#fff;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:clamp(25px,4vh,36px);
+ font-weight:900;
+ box-shadow:0 2px 5px #0002;
+}
+#candidateSection .ballot-header h1{margin:5px 0 2px;font-size:clamp(25px,4.2vh,39px);font-weight:900;line-height:1.05;letter-spacing:.4px}
+#candidateSection .ballot-header p{margin:3px 0;font-size:clamp(11px,1.8vh,16px);line-height:1.2;font-weight:800}
+#candidateSection .ballot-header .ballot-period{margin-top:5px}
+#candidateSection .candidates{
+ flex:1 1 auto;
+ min-height:0;
+ width:100%;
+ max-width:1000px;
+ margin:0 auto;
+ padding:0 clamp(10px,3vw,28px) 8px;
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ align-items:center;
+ justify-content:center;
+ gap:clamp(8px,2.8vw,24px);
+}
+#candidateSection .candidate{
+ appearance:none;
+ -webkit-appearance:none;
+ min-width:0;
+ width:100%;
+ height:clamp(270px,28vh,440px);
+ max-height:100%;
+ padding:clamp(8px,1.5vw,14px);
+ display:flex;
+ flex-direction:column;
+ align-items:stretch;
+ justify-content:flex-start;
+ gap:0;
+ overflow:hidden;
+ background:#fff;
+ color:#18212f;
+ border:2px solid #cbd5df;
+ border-radius:14px;
+ box-shadow:0 2px 5px #00000018;
+}
+#candidateSection .candidate.selected{border:4px solid #087443;background:#f2fff6;padding:calc(clamp(8px,1.5vw,14px) - 2px)}
+#candidateSection .candidate .number{flex:0 0 auto;margin:0 0 clamp(8px,1.2vh,14px);font-size:clamp(22px,3vh,31px);line-height:1.1;font-weight:900}
+#candidateSection .candidate .photo-frame{
+ width:100%;
+ height:clamp(160px,17.5vh,280px);
+ flex:0 0 auto;
+ margin:0;
+ border-radius:7px;
+ background:#f2f3f5;
+ overflow:hidden;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+#candidateSection .candidate .photo-frame img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
+#candidateSection .candidate-placeholder{display:flex;width:100%;height:100%;align-items:center;justify-content:center;background:#ffd900;color:#fff;font-size:clamp(65px,10vh,115px);font-weight:900;text-shadow:0 2px 5px #000}
+#candidateSection .candidate .name{flex:1 1 auto;min-height:44px;padding:clamp(12px,2vh,22px) 2px 4px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(12px,1.9vh,17px);font-weight:900;line-height:1.2;overflow-wrap:anywhere}
+#candidateSection #pilihButton{
+ flex:0 0 auto;
+ width:100%;
+ height:clamp(58px,8vh,82px);
+ min-height:58px;
+ margin:0;
+ border:0;
+ border-radius:0;
+ background:#a7b8cf;
+ color:#fff;
+ font-size:clamp(16px,2.3vh,22px);
+ font-weight:900;
+ letter-spacing:.3px;
+}
+#candidateSection #pilihButton:not(:disabled){background:#087443}
+#candidateSection #pilihButton:disabled{opacity:1;color:#fff}
+
+@media screen and (orientation:portrait){
+ #candidateSection .ballot-header{flex-basis:25%;min-height:0;padding-top:clamp(16px,2.5vh,34px)}
+ #candidateSection .candidates{padding-left:clamp(8px,3vw,22px);padding-right:clamp(8px,3vw,22px);gap:clamp(7px,2.5vw,18px)}
+ #candidateSection .candidate{height:clamp(260px,28vh,440px);padding:clamp(6px,1.2vw,10px)}
+ #candidateSection .candidate .photo-frame{height:clamp(145px,17.3vh,270px)}
+ #candidateSection .candidate .name{font-size:clamp(10px,2.1vw,15px);padding-top:clamp(10px,1.7vh,18px)}
+ #candidateSection #pilihButton{height:clamp(58px,8vh,86px)}
+}
+
+@media screen and (orientation:landscape) and (max-height:600px){
+ #candidateSection .ballot-header{flex-basis:29%;min-height:0;padding:5px 8px 2px}
+ #candidateSection .ballot-emblem{width:32px;height:32px;font-size:18px;margin-bottom:1px}
+ #candidateSection .ballot-header h1{font-size:20px;margin:2px}
+ #candidateSection .ballot-header p{font-size:9px;margin:1px}
+ #candidateSection .ballot-room{top:7px;left:10px;font-size:10px}
+ #candidateSection .candidates{padding-bottom:5px;gap:10px}
+ #candidateSection .candidate{height:min(58vh,300px);padding:6px}
+ #candidateSection .candidate .number{font-size:18px;margin-bottom:5px}
+ #candidateSection .candidate .photo-frame{height:min(36vh,150px)}
+ #candidateSection .candidate .name{font-size:11px;min-height:28px;padding:5px 1px}
+ #candidateSection #pilihButton{height:45px;min-height:45px;font-size:15px}
+}
+
+/* STRUK HANYA PRATINJAU SIMULASI */
+#receiptSection .simulation-note{
+ display:block;
+ margin:8px auto;
+ padding:8px 10px;
+ max-width:520px;
+ border:1px dashed #b7791f;
+ border-radius:8px;
+ background:#fff8e6;
+ color:#805500;
+ font-family:Arial,sans-serif;
+ font-size:clamp(10px,1.7vh,13px);
+ font-weight:800;
+ text-align:center;
+}
+#receiptSection .receipt-actions::before{
+ content:"PRATINJAU BUKTI SIMULASI";
+ display:block;
+ text-align:center;
+ font-size:clamp(15px,2.2vh,20px);
+ font-weight:900;
+ color:#087443;
 }
 </style>
 </head>
@@ -138,101 +324,112 @@ button:disabled{opacity:.45;cursor:not-allowed}
 
 <div class="container">
 
-<!-- SCAN UNDANGAN -->
-<section id="scanSection" class="panel">
- <h3>SCAN BARCODE KARTU UNDANGAN</h3>
- <p>Arahkan kamera ke QR Code atau barcode pada kartu undangan.</p>
- <div id="reader"></div>
- <p id="scanStatus">Tekan MULAI SCAN, lalu izinkan akses kamera.</p>
+ <!-- HALAMAN SCAN BARCODE UNDANGAN -->
+ <section id="scanSection" class="panel">
+  <h3>SCAN BARCODE KARTU UNDANGAN</h3>
+  <p>Arahkan kamera ke QR Code atau barcode pada kartu undangan, atau pilih mode tanpa barcode untuk uji coba.</p>
+  <div id="reader"></div>
+  <p id="scanStatus">Tekan MULAI SCAN, lalu izinkan akses kamera.</p>
 
- <div class="scan-actions">
-  <button class="primary" onclick="mulaiScan()">MULAI SCAN</button>
-  <button class="gray" onclick="hentikanScan()">MATIKAN KAMERA</button>
- </div>
-
- <div class="manual-area">
-  <input id="manualCode" placeholder="Masukkan kode undangan" autocomplete="off">
-  <button class="gray" onclick="manualScan()">LANJUT</button>
- </div>
-
- <label style="font-size:11px">Jika kamera bermasalah, pilih foto barcode dari galeri:</label>
- <input id="barcodeFile" type="file" accept="image/*" capture="environment" style="max-width:100%;font-size:11px" onchange="scanDariFoto(event)">
-</section>
-
-<!-- PILIH CALON -->
-<section id="candidateSection" class="panel hidden">
- <h3>SILAKAN PILIH CALON</h3>
-
- <div class="candidates">
-  <div class="candidate" onclick="pilih(1)">
-   <div class="placeholder">👤</div>
-   <div class="number">1</div>
-   <div class="name">CALON NOMOR 1</div>
+  <div class="scan-actions">
+   <button class="primary" onclick="mulaiScan()">MULAI SCAN</button>
+   <button class="gray" onclick="hentikanScan()">MATIKAN KAMERA</button>
+   <button class="no-barcode" onclick="masukTanpaBarcode()">MASUK TANPA BARCODE</button>
   </div>
 
-  <div class="candidate" onclick="pilih(2)">
-   <div class="placeholder">👤</div>
-   <div class="number">2</div>
-   <div class="name">CALON NOMOR 2</div>
+  <div class="manual-area">
+   <input id="manualCode" placeholder="Masukkan kode undangan" autocomplete="off">
+   <button class="gray" onclick="manualScan()">LANJUT</button>
   </div>
 
-  <div class="candidate" onclick="pilih(3)">
-   <div class="photo-frame">
-    <img src="calon3.png" alt="Agus Sopian, S.T." onerror="this.style.opacity='.2';this.alt='Foto calon tidak ditemukan'">
-   </div>
-   <div class="number">3</div>
-   <div class="name">AGUS SOPIAN, S.T.</div>
-  </div>
- </div>
+  <label style="font-size:11px">Jika kamera bermasalah, pilih foto barcode dari galeri:</label>
+  <input id="barcodeFile" type="file" accept="image/*" capture="environment" style="max-width:100%;font-size:11px" onchange="scanDariFoto(event)">
+ </section>
 
- <button id="pilihButton" class="red full" onclick="konfirmasi()" disabled>
-  PILIH KANDIDAT INI
- </button>
-</section>
-
-<!-- BUKTI TRANSAKSI -->
-<section id="receiptSection" class="panel hidden">
- <div class="receipt-layout">
-
-  <div class="receipt-left" id="receipt">
-   <h3>PILKADES BANTARSARI</h3>
-   <p>BUKTI PEMUNGUTAN SUARA</p>
-   <hr>
-   <p>STATUS: BERHASIL</p>
-   <p id="tanggal"></p>
-   <p id="kodeTransaksi"></p>
-   <div id="qrcode"></div>
-   <p>QR CODE BUKTI TRANSAKSI</p>
-   <hr>
-   <p>TERIMA KASIH</p>
-   <p>DESA BANTARSARI</p>
+ <!-- HALAMAN PILIH CALON -->
+ <section id="candidateSection" class="panel hidden">
+  <div class="ballot-header">
+   <div class="ballot-room">PILKADES BANTARSARI</div>
+   <div class="ballot-emblem" aria-label="Lambang Pilkades">B</div>
+   <h1>SURAT SUARA</h1>
+   <p>PEMILIHAN KEPALA DESA BANTARSARI</p>
+   <p>KECAMATAN CIJAMBE KABUPATEN SUBANG</p>
+   <p class="ballot-period">MASA BAKTI 2026–2034</p>
   </div>
 
-  <div class="receipt-actions no-print">
-   <div class="quote-box">
-    Ulah Sieun Milih mah Kumaha Urang,<br>
-    Alloh Resep kana Jalma nu Jujur!
-   </div>
+  <div class="candidates">
+   <button type="button" class="candidate" onclick="pilih(1)" aria-label="Pilih calon nomor urut 1">
+    <div class="number">1</div>
+    <div class="photo-frame">
+     <div class="candidate-placeholder">?</div>
+    </div>
+    <div class="name">CALON 1</div>
+   </button>
 
-   <button id="returnButton" class="gray full" onclick="ulang()" style="display:none">
-    KEMBALI KE SCAN BARCODE UNDANGAN
+   <button type="button" class="candidate" onclick="pilih(2)" aria-label="Pilih calon nomor urut 2">
+    <div class="number">2</div>
+    <div class="photo-frame">
+     <div class="candidate-placeholder">?</div>
+    </div>
+    <div class="name">CALON 2</div>
+   </button>
+
+   <button type="button" class="candidate" onclick="pilih(3)" aria-label="Pilih Agus Sopian nomor urut 3">
+    <div class="number">3</div>
+    <div class="photo-frame">
+     <img src="calon3.png" alt="Foto Agus Sopian, S.T."
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+     <div class="candidate-placeholder" style="display:none">?</div>
+    </div>
+    <div class="name">AGUS SOPIAN, S.T.</div>
    </button>
   </div>
 
- </div>
-</section>
+  <button id="pilihButton" class="red full" onclick="konfirmasi()" disabled>
+   PILIH KANDIDAT INI
+  </button>
+ </section>
+
+ <!-- HALAMAN BUKTI TRANSAKSI SIMULASI -->
+ <section id="receiptSection" class="panel hidden">
+  <div class="receipt-layout">
+   <div class="receipt-left" id="receipt">
+    <h3>PILKADES BANTARSARI</h3>
+    <p><strong>SIMULASI BUKTI PEMUNGUTAN SUARA</strong></p>
+    <hr>
+    <p>STATUS: BERHASIL</p>
+    <p id="tanggal"></p>
+    <p id="kodeTransaksi"></p>
+    <div id="qrcode"></div>
+    <p>QR CODE SIMULASI TRANSAKSI</p>
+    <div class="simulation-note">HANYA UNTUK SIMULASI — TIDAK ADA CETAK LANGSUNG</div>
+    <hr>
+    <p>TERIMA KASIH</p>
+    <p style="font-size:10px;font-weight:bold">HANYA SIMULASI · BUKAN BUKTI SUARA RESMI</p>
+    <p>DESA BANTARSARI</p>
+   </div>
+
+   <div class="receipt-actions no-print">
+    <div class="quote-box">
+     Ulah Sieun Milih mah Kumaha Urang,<br>
+     Alloh Resep kana Jalma nu Jujur!
+    </div>
+    <button id="returnButton" class="gray full" onclick="ulang()" style="display:none">
+     KEMBALI KE SCAN BARCODE UNDANGAN
+    </button>
+   </div>
+  </div>
+ </section>
 </div>
 
 <!-- MODAL KONFIRMASI -->
 <div id="modal" class="modal">
  <div class="modal-box">
-
   <h3 class="confirm-title">YAKIN DENGAN PILIHAN ANDA?</h3>
 
   <div class="confirm-content">
    <div class="confirm-photo">
-    <img id="fotoKonfirmasi" src="calon3.png" alt="Foto calon"
-    onerror="this.style.display='none';document.getElementById('fotoFallback').style.display='block'">
+    <img id="fotoKonfirmasi" src="calon3.png" alt="Foto calon" onerror="this.style.display='none';document.getElementById('fotoFallback').style.display='block'">
     <div id="fotoFallback" class="photo-fallback">👤</div>
    </div>
 
@@ -246,27 +443,49 @@ button:disabled{opacity:.45;cursor:not-allowed}
    <button class="gray" onclick="tutupModal()">ULANGI</button>
    <button class="primary" onclick="simpan()">SIMPAN</button>
   </div>
-
  </div>
 </div>
 
 <script>
+document.body.classList.add("app-fullscreen");
+
 let scanner=null;
 let calonDipilih=0;
 let sedangScan=false;
 let sedangMenyimpan=false;
-let printFallback=null;
 
 const calon={
- 1:{nama:"CALON NOMOR 1",foto:""},
- 2:{nama:"CALON NOMOR 2",foto:""},
+ 1:{nama:"CALON 1",foto:""},
+ 2:{nama:"CALON 2",foto:""},
  3:{nama:"AGUS SOPIAN, S.T.",foto:"calon3.png"}
 };
+
+/* AKTIFKAN LAYAR PENUH */
+async function aktifkanLayarPenuh(){
+ document.body.classList.add("app-fullscreen");
+
+ try{
+  if(!document.fullscreenElement && document.documentElement.requestFullscreen){
+   await document.documentElement.requestFullscreen();
+  }
+ }catch(e){
+  /* Layout tetap menggunakan seluruh viewport jika browser menolak fullscreen. */
+ }
+}
+
+function masukModeScan(){
+ document.body.classList.add("app-fullscreen","scan-active");
+}
+
+function keluarModeScan(){
+ document.body.classList.remove("scan-active");
+}
 
 function halaman(id){
  ["scanSection","candidateSection","receiptSection"].forEach(x=>{
   document.getElementById(x).classList.add("hidden");
  });
+
  document.getElementById(id).classList.remove("hidden");
 }
 
@@ -274,32 +493,67 @@ function statusScan(teks){
  document.getElementById("scanStatus").textContent=teks;
 }
 
+/* MASUK TANPA BARCODE - KHUSUS SIMULASI */
+function masukTanpaBarcode(){
+ aktifkanLayarPenuh().then(()=>{
+  const lanjut=confirm(
+   "MODE TANPA BARCODE (UJI COBA)\n\n"+
+   "Mode ini melewati pemindaian undangan dan hanya untuk simulasi/pengujian. "+
+   "Jangan gunakan untuk pemungutan suara resmi.\n\n"+
+   "Lanjut ke surat suara?"
+  );
+
+  if(lanjut){
+   hentikanScan().finally(()=>masukPemilihan());
+  }
+ });
+}
+
+/* BUKA HALAMAN SURAT SUARA */
 function masukPemilihan(){
+ document.body.classList.add("app-fullscreen");
+ keluarModeScan();
+
  calonDipilih=0;
- document.querySelectorAll(".candidate").forEach(el=>el.classList.remove("selected"));
+
+ document.querySelectorAll(".candidate").forEach(el=>{
+  el.classList.remove("selected");
+ });
+
  document.getElementById("pilihButton").disabled=true;
  halaman("candidateSection");
 }
 
-function manualScan(){
+/* INPUT KODE MANUAL */
+async function manualScan(){
+ await aktifkanLayarPenuh();
+
  const kode=document.getElementById("manualCode").value.trim();
+
  if(!kode){
   alert("Masukkan kode undangan terlebih dahulu.");
   return;
  }
+
  hentikanScan().finally(()=>masukPemilihan());
 }
 
+/* MULAI SCAN KAMERA */
 async function mulaiScan(){
  if(sedangScan)return;
 
+ await aktifkanLayarPenuh();
+ masukModeScan();
+
  if(!window.isSecureContext){
   alert("Akses kamera membutuhkan HTTPS. Buka situs melalui alamat https://.");
+  keluarModeScan();
   return;
  }
 
  if(typeof Html5Qrcode==="undefined"){
   alert("Pemindai belum termuat. Periksa koneksi internet lalu muat ulang halaman.");
+  keluarModeScan();
   return;
  }
 
@@ -317,7 +571,11 @@ async function mulaiScan(){
     Html5QrcodeSupportedFormats.ITF,
     Html5QrcodeSupportedFormats.CODABAR
    ];
-   scanner=new Html5Qrcode("reader",{verbose:false,formatsToSupport:formats});
+
+   scanner=new Html5Qrcode("reader",{
+    verbose:false,
+    formatsToSupport:formats
+   });
   }
 
   statusScan("Meminta izin kamera...");
@@ -336,9 +594,15 @@ async function mulaiScan(){
    },
    async(decodedText)=>{
     if(!decodedText||!sedangScan)return;
+
     sedangScan=false;
     statusScan("Barcode terbaca. Membuka pilihan calon...");
-    try{await scanner.stop();}catch(e){}
+
+    try{
+     await scanner.stop();
+    }catch(e){}
+
+    keluarModeScan();
     masukPemilihan();
    },
    ()=>{}
@@ -348,22 +612,37 @@ async function mulaiScan(){
 
  }catch(e){
   sedangScan=false;
+  keluarModeScan();
+
   const msg=(e&&e.message)?e.message:String(e);
+
   statusScan("Kamera gagal dibuka.");
-  alert("Kamera tidak dapat dibuka: "+msg+". Pastikan izin kamera di browser aktif dan tidak digunakan aplikasi lain.");
+
+  alert(
+   "Kamera tidak dapat dibuka: "+msg+
+   ". Pastikan izin kamera di browser aktif dan tidak digunakan aplikasi lain."
+  );
  }
 }
 
+/* MATIKAN KAMERA */
 async function hentikanScan(){
  if(scanner&&sedangScan){
-  try{await scanner.stop();}catch(e){}
+  try{
+   await scanner.stop();
+  }catch(e){}
  }
+
  sedangScan=false;
  statusScan("Kamera dimatikan.");
 }
 
+/* SCAN BARCODE DARI FOTO GALERI */
 async function scanDariFoto(event){
+ await aktifkanLayarPenuh();
+
  const file=event.target.files&&event.target.files[0];
+
  if(!file)return;
 
  if(typeof Html5Qrcode==="undefined"){
@@ -373,14 +652,21 @@ async function scanDariFoto(event){
 
  try{
   if(sedangScan)await hentikanScan();
-  if(!scanner)scanner=new Html5Qrcode("reader");
+
+  if(!scanner){
+   scanner=new Html5Qrcode("reader");
+  }
 
   statusScan("Membaca barcode dari foto...");
+
   const hasil=await scanner.scanFile(file,true);
 
-  if(!hasil)throw new Error("Barcode tidak terbaca");
+  if(!hasil){
+   throw new Error("Barcode tidak terbaca");
+  }
 
   statusScan("Barcode terbaca. Membuka pilihan calon...");
+  keluarModeScan();
   masukPemilihan();
 
  }catch(e){
@@ -391,18 +677,28 @@ async function scanDariFoto(event){
  }
 }
 
+/* PILIH CALON */
 function pilih(n){
  calonDipilih=n;
- document.querySelectorAll(".candidate").forEach(el=>el.classList.remove("selected"));
+
+ document.querySelectorAll(".candidate").forEach(el=>{
+  el.classList.remove("selected");
+ });
+
  document.querySelectorAll(".candidate")[n-1].classList.add("selected");
+
  document.getElementById("pilihButton").disabled=false;
 }
 
+/* KONFIRMASI PILIHAN */
 function konfirmasi(){
  if(!calonDipilih)return;
 
- document.getElementById("nomorKonfirmasi").textContent="NOMOR URUT "+calonDipilih;
- document.getElementById("namaKonfirmasi").textContent=calon[calonDipilih].nama;
+ document.getElementById("nomorKonfirmasi").textContent=
+  "NOMOR URUT "+calonDipilih;
+
+ document.getElementById("namaKonfirmasi").textContent=
+  calon[calonDipilih].nama;
 
  const foto=document.getElementById("fotoKonfirmasi");
  const fallback=document.getElementById("fotoFallback");
@@ -424,15 +720,21 @@ function tutupModal(){
  document.getElementById("modal").style.display="none";
 }
 
+/* TAMPILKAN TOMBOL KEMBALI */
 function tampilkanTombolKembali(){
  const btn=document.getElementById("returnButton");
- if(btn)btn.style.display="block";
+
+ if(btn){
+  btn.style.display="block";
+ }
 }
 
+/* SIMPAN DATA SIMULASI DAN TAMPILKAN STRUK DI LAYAR */
 function simpan(){
  if(!calonDipilih||sedangMenyimpan)return;
 
  sedangMenyimpan=true;
+
  const tombol=document.querySelector("#modal .primary");
  tombol.disabled=true;
 
@@ -451,49 +753,58 @@ function simpan(){
   );
 
   daftar.push(suara);
-  localStorage.setItem("demo_suara_bantarsari",JSON.stringify(daftar));
+
+  localStorage.setItem(
+   "demo_suara_bantarsari",
+   JSON.stringify(daftar)
+  );
 
   document.getElementById("modal").style.display="none";
-  document.getElementById("tanggal").textContent=sekarang.toLocaleString("id-ID");
-  document.getElementById("kodeTransaksi").textContent="KODE: "+kode;
+
+  document.getElementById("tanggal").textContent=
+   sekarang.toLocaleString("id-ID");
+
+  document.getElementById("kodeTransaksi").textContent=
+   "KODE: "+kode;
+
   document.getElementById("qrcode").innerHTML="";
 
   if(typeof QRCode!=="undefined"){
-   new QRCode(document.getElementById("qrcode"),{
-    text:kode,
-    width:110,
-    height:110
-   });
+   new QRCode(
+    document.getElementById("qrcode"),
+    {
+     text:kode,
+     width:110,
+     height:110
+    }
+   );
   }else{
    document.getElementById("qrcode").textContent=kode;
   }
 
   document.getElementById("returnButton").style.display="none";
+
   halaman("receiptSection");
 
-  clearTimeout(printFallback);
-  printFallback=setTimeout(tampilkanTombolKembali,5000);
-
-  setTimeout(()=>{
-   try{window.print();}
-   catch(e){tampilkanTombolKembali();}
-  },900);
+  /* SIMULASI SAJA: TIDAK MEMANGGIL PRINTER ATAU WINDOW.PRINT */
+  tampilkanTombolKembali();
 
  }catch(e){
-  alert("Gagal menyimpan data pada perangkat ini. Periksa ruang penyimpanan browser.");
+  alert(
+   "Gagal menyimpan data pada perangkat ini. "+
+   "Periksa ruang penyimpanan browser."
+  );
  }finally{
   sedangMenyimpan=false;
   tombol.disabled=false;
  }
 }
 
-window.addEventListener("afterprint",()=>{
- clearTimeout(printFallback);
- tampilkanTombolKembali();
-});
-
+/* KEMBALI KE HALAMAN SCAN */
 function ulang(){
- clearTimeout(printFallback);
+ document.body.classList.add("app-fullscreen");
+ keluarModeScan();
+
  calonDipilih=0;
 
  document.getElementById("manualCode").value="";
@@ -501,7 +812,12 @@ function ulang(){
  document.getElementById("returnButton").style.display="none";
 
  halaman("scanSection");
- statusScan("Siap memindai undangan berikutnya. Tekan MULAI SCAN.");
+
+ statusScan("Menyiapkan kamera untuk undangan berikutnya...");
+
+ setTimeout(()=>{
+  mulaiScan();
+ },350);
 }
 </script>
 </body>
