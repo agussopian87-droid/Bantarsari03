@@ -21,12 +21,18 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   background: #eaf0f5;
+}
+
+body {
+  overscroll-behavior: none;
 }
 
 .page {
   display: none;
+  position: fixed;
+  inset: 0;
   width: 100%;
   height: 100vh;
   height: 100dvh;
@@ -39,43 +45,51 @@ html, body {
 }
 
 button {
-  border: 0;
+  border: none;
   border-radius: 10px;
-  font-weight: 900;
-  cursor: pointer;
   color: white;
+  font-weight: 900;
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active {
+  transform: scale(.98);
 }
 
 .blue {
   background: #1769d2;
-  color: white;
 }
 
 .red {
   background: #d62828;
-  color: white;
 }
 
-/* SCAN */
+/* =========================
+   HALAMAN SCAN
+========================= */
+
 #scanPage {
   background: #f4f7fa;
 }
 
 .scan-header {
   flex-shrink: 0;
-  padding: 15px 10px;
+  padding: 14px 10px;
   text-align: center;
   background: white;
 }
 
 .scan-header h2 {
-  font-size: clamp(18px, 3vw, 25px);
+  font-size: clamp(18px, 3vw, 26px);
   margin-bottom: 6px;
+  color: #172033;
 }
 
 .scan-header p {
-  font-size: 14px;
   color: #64748b;
+  font-size: clamp(12px, 2vw, 16px);
 }
 
 #reader {
@@ -92,16 +106,25 @@ button {
   object-fit: cover !important;
 }
 
+#reader__scan_region {
+  min-height: 0 !important;
+}
+
+#reader__dashboard {
+  display: none !important;
+}
+
 .scan-footer {
   flex-shrink: 0;
-  padding: 10px;
   background: white;
+  padding: 10px;
   text-align: center;
 }
 
 .scan-footer p {
   color: #087c55;
   font-weight: bold;
+  font-size: 14px;
   margin-bottom: 8px;
 }
 
@@ -111,19 +134,23 @@ button {
   font-size: 17px;
 }
 
-/* KANDIDAT */
+/* =========================
+   HALAMAN SURAT SUARA
+========================= */
+
 #candidatePage {
   background: linear-gradient(
     180deg,
     #f32d3b 0%,
-    #f7a3ad 25%,
-    #f8f9fc 53%,
+    #f7a3ad 24%,
+    #f8f9fc 55%,
     #dcecff 100%
   );
 }
 
 .top-title {
   flex-shrink: 0;
+  position: relative;
   text-align: center;
   color: #101827;
   padding: 8px 5px 5px;
@@ -131,25 +158,25 @@ button {
 
 .village {
   position: absolute;
-  top: 12px;
+  top: 13px;
   left: 14px;
-  font-size: clamp(13px, 2.5vw, 21px);
+  font-size: clamp(12px, 2.5vw, 21px);
   font-weight: 900;
 }
 
-.logo-b {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 3px;
-  border: 3px solid #e4d35a;
-  border-radius: 15px;
-  background: #087c55;
+.logo-pemda {
+  width: 62px;
+  height: 70px;
+  margin: 0 auto 4px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 32px;
-  font-weight: 900;
+  align-items: center;
+}
+
+.logo-pemda img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .top-title h1 {
@@ -163,6 +190,8 @@ button {
   font-weight: 900;
   line-height: 1.3;
 }
+
+/* TIGA KARTU KANDIDAT */
 
 .candidate-area {
   flex: 1;
@@ -178,34 +207,40 @@ button {
   min-height: 0;
   background: white;
   border: 2px solid #cbd5e1;
-  border-radius: 18px;
+  border-radius: 17px;
   padding: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   box-shadow: 0 3px 8px #0002;
   cursor: pointer;
 }
 
 .candidate-card.selected {
-  border: 5px solid #087c55;
+  border: 4px solid #087c55;
   background: #effff5;
 }
 
 .candidate-number {
   flex-shrink: 0;
+  width: 100%;
+  text-align: center;
   padding: 2px 0 8px;
   font-size: clamp(20px, 3vw, 30px);
   font-weight: 900;
   color: #172033;
 }
 
-/* FOTO */
+/* BINGKAI FOTO PROPORSIONAL */
+
 .photo-frame {
-  flex: 1;
-  min-height: 0;
+  position: relative;
   width: 100%;
-  border-radius: 11px;
+  aspect-ratio: 3 / 4;
+  flex: 0 1 auto;
+  max-height: 48vh;
+  border-radius: 12px;
   overflow: hidden;
   background: #ffcc00;
   display: flex;
@@ -213,7 +248,7 @@ button {
   align-items: center;
 }
 
-.photo-frame img {
+.photo-frame > img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -222,6 +257,7 @@ button {
 }
 
 /* SILUET CALON 1 DAN 2 */
+
 .silhouette {
   width: 100%;
   height: 100%;
@@ -229,7 +265,6 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .silhouette svg {
@@ -239,16 +274,18 @@ button {
   max-height: 350px;
 }
 
+/* NAMA CALON */
+
 .candidate-name {
   flex-shrink: 0;
   width: 100%;
-  min-height: 54px;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 6px 2px;
-  font-size: clamp(12px, 2vw, 22px);
+  padding: 5px 2px;
+  font-size: clamp(11px, 2vw, 21px);
   line-height: 1.2;
   font-weight: 900;
   color: #172033;
@@ -256,8 +293,10 @@ button {
 }
 
 /* TOMBOL PILIH */
+
 .bottom-action {
   flex-shrink: 0;
+  width: 100%;
   padding: 9px 10px;
   background: #1769d2;
 }
@@ -265,10 +304,13 @@ button {
 .bottom-action button {
   width: 100%;
   min-height: 60px;
-  font-size: clamp(17px, 3vw, 25px);
+  font-size: clamp(16px, 3vw, 25px);
 }
 
-/* KONFIRMASI */
+/* =========================
+   MODAL KONFIRMASI
+========================= */
+
 .modal {
   position: fixed;
   inset: 0;
@@ -325,6 +367,7 @@ button {
 .confirm-info {
   flex: 1;
   text-align: left;
+  min-width: 0;
 }
 
 .confirm-info .number {
@@ -336,6 +379,7 @@ button {
 .confirm-info .name {
   font-size: clamp(19px, 3vw, 29px);
   font-weight: 900;
+  overflow-wrap: anywhere;
 }
 
 .modal-buttons {
@@ -349,7 +393,10 @@ button {
   font-size: 16px;
 }
 
-/* STRUK SIMULASI */
+/* =========================
+   HALAMAN STRUK SIMULASI
+========================= */
+
 #receiptPage {
   background: #eaf0f5;
   padding: 12px;
@@ -409,17 +456,19 @@ button {
   font-size: clamp(15px, 2.5vw, 20px);
 }
 
-/* LANDSCAPE */
+/* =========================
+   LAYAR LANDSCAPE
+========================= */
+
 @media (orientation: landscape) {
   .top-title {
     padding: 3px 5px;
   }
 
-  .logo-b {
-    width: 30px;
-    height: 30px;
-    font-size: 21px;
-    margin-bottom: 1px;
+  .logo-pemda {
+    width: 38px;
+    height: 43px;
+    margin-bottom: 2px;
   }
 
   .top-title h1 {
@@ -434,6 +483,14 @@ button {
     padding: 4px 10px;
   }
 
+  .candidate-number {
+    padding-bottom: 4px;
+  }
+
+  .photo-frame {
+    max-height: 43vh;
+  }
+
   .candidate-name {
     min-height: 38px;
   }
@@ -443,16 +500,27 @@ button {
   }
 }
 
+/* =========================
+   LAYAR PORTRAIT
+========================= */
+
 @media (max-width: 600px) and (orientation: portrait) {
   .village {
     position: static;
     margin-bottom: 4px;
   }
 
-  .logo-b {
-    width: 40px;
-    height: 40px;
-    font-size: 27px;
+  .logo-pemda {
+    width: 48px;
+    height: 55px;
+  }
+
+  .top-title h1 {
+    font-size: clamp(22px, 6vw, 32px);
+  }
+
+  .top-title h3 {
+    font-size: clamp(9px, 2.6vw, 14px);
   }
 
   .candidate-area {
@@ -465,13 +533,52 @@ button {
     border-radius: 14px;
   }
 
-  .candidate-name {
-    min-height: 48px;
-    font-size: clamp(11px, 3vw, 15px);
-  }
-
   .candidate-number {
     font-size: 21px;
+  }
+
+  .photo-frame {
+    max-height: 43vh;
+  }
+
+  .candidate-name {
+    min-height: 48px;
+    font-size: clamp(10px, 2.8vw, 15px);
+  }
+
+  .bottom-action button {
+    min-height: 62px;
+    font-size: 17px;
+  }
+}
+
+/* LAYAR PENDEK */
+
+@media (max-height: 500px) {
+  .logo-pemda {
+    width: 30px;
+    height: 32px;
+  }
+
+  .top-title h1 {
+    font-size: 19px;
+  }
+
+  .top-title h3 {
+    font-size: 9px;
+  }
+
+  .photo-frame {
+    max-height: 38vh;
+  }
+
+  .candidate-name {
+    min-height: 30px;
+    font-size: 12px;
+  }
+
+  .bottom-action button {
+    min-height: 42px;
   }
 }
 </style>
@@ -479,8 +586,12 @@ button {
 
 <body>
 
-<!-- SCAN BARCODE -->
+<!-- =========================
+     HALAMAN SCAN BARCODE
+========================= -->
+
 <section id="scanPage" class="page active">
+
   <div class="scan-header">
     <h2>ARAHKAN KAMERA KE QR CODE</h2>
     <p>Pastikan QR code undangan terlihat jelas dan dapat dibaca</p>
@@ -490,67 +601,120 @@ button {
 
   <div class="scan-footer">
     <p id="scanStatus">Siap memindai QR undangan pemilih...</p>
+
     <button class="blue" onclick="tanpaBarcode()">
       MASUK TANPA BARCODE
     </button>
   </div>
+
 </section>
 
-<!-- HALAMAN KANDIDAT -->
+<!-- =========================
+     HALAMAN KANDIDAT
+========================= -->
+
 <section id="candidatePage" class="page">
 
   <div class="top-title">
+
     <div class="village">PILKADES BANTARSARI</div>
-    <div class="logo-b">B</div>
+
+    <div class="logo-pemda">
+      <img src="logo-pemda.png" alt="Logo Pemda Kabupaten Subang">
+    </div>
+
     <h1>SURAT SUARA</h1>
+
     <h3>PEMILIHAN KEPALA DESA BANTARSARI</h3>
     <h3>KECAMATAN CIJAMBE KABUPATEN SUBANG</h3>
     <h3>MASA BAKTI 2026–2034</h3>
+
   </div>
 
   <div class="candidate-area">
 
     <!-- CALON 1 -->
+
     <div class="candidate-card" onclick="pilihKandidat(1)">
+
       <div class="candidate-number">1</div>
+
       <div class="photo-frame">
         <div class="silhouette">
+
           <svg viewBox="0 0 220 300" xmlns="http://www.w3.org/2000/svg">
-            <path d="M35 290 L45 210 Q55 170 85 160 L85 145 Q55 125 55 85 Q55 25 110 25 Q165 25 165 85 Q165 125 135 145 L135 160 Q165 170 175 210 L185 290 Z" fill="#111827"/>
-            <path d="M85 145 Q110 165 135 145 L135 175 L110 200 L85 175 Z" fill="#202020"/>
-            <path d="M85 175 L110 200 L135 175 L145 290 L75 290 Z" fill="#ffffff"/>
-            <path d="M105 195 L115 195 L128 290 L92 290 Z" fill="#bd1e2d"/>
-            <path d="M55 90 Q45 45 85 30 Q120 10 150 40 Q175 65 160 105 L150 75 Q125 90 95 70 Q80 90 60 110 Z" fill="#080808"/>
+
+            <path d="M35 290 L45 210 Q55 170 85 160 L85 145 Q55 125 55 85 Q55 25 110 25 Q165 25 165 85 Q165 125 135 145 L135 160 Q165 170 175 210 L185 290 Z"
+            fill="#111827"/>
+
+            <path d="M85 145 Q110 165 135 145 L135 175 L110 200 L85 175 Z"
+            fill="#202020"/>
+
+            <path d="M85 175 L110 200 L135 175 L145 290 L75 290 Z"
+            fill="#ffffff"/>
+
+            <path d="M105 195 L115 195 L128 290 L92 290 Z"
+            fill="#bd1e2d"/>
+
+            <path d="M55 90 Q45 45 85 30 Q120 10 150 40 Q175 65 160 105 L150 75 Q125 90 95 70 Q80 90 60 110 Z"
+            fill="#080808"/>
+
           </svg>
+
         </div>
       </div>
+
       <div class="candidate-name">CALON 1</div>
+
     </div>
 
     <!-- CALON 2 -->
+
     <div class="candidate-card" onclick="pilihKandidat(2)">
+
       <div class="candidate-number">2</div>
+
       <div class="photo-frame">
         <div class="silhouette">
+
           <svg viewBox="0 0 220 300" xmlns="http://www.w3.org/2000/svg">
-            <path d="M35 290 L45 210 Q55 170 85 160 L85 145 Q55 125 55 85 Q55 25 110 25 Q165 25 165 85 Q165 125 135 145 L135 160 Q165 170 175 210 L185 290 Z" fill="#111827"/>
-            <path d="M85 145 Q110 165 135 145 L135 175 L110 200 L85 175 Z" fill="#202020"/>
-            <path d="M85 175 L110 200 L135 175 L145 290 L75 290 Z" fill="#ffffff"/>
-            <path d="M105 195 L115 195 L128 290 L92 290 Z" fill="#bd1e2d"/>
-            <path d="M55 90 Q45 45 85 30 Q120 10 150 40 Q175 65 160 105 L150 75 Q125 90 95 70 Q80 90 60 110 Z" fill="#080808"/>
+
+            <path d="M35 290 L45 210 Q55 170 85 160 L85 145 Q55 125 55 85 Q55 25 110 25 Q165 25 165 85 Q165 125 135 145 L135 160 Q165 170 175 210 L185 290 Z"
+            fill="#111827"/>
+
+            <path d="M85 145 Q110 165 135 145 L135 175 L110 200 L85 175 Z"
+            fill="#202020"/>
+
+            <path d="M85 175 L110 200 L135 175 L145 290 L75 290 Z"
+            fill="#ffffff"/>
+
+            <path d="M105 195 L115 195 L128 290 L92 290 Z"
+            fill="#bd1e2d"/>
+
+            <path d="M55 90 Q45 45 85 30 Q120 10 150 40 Q175 65 160 105 L150 75 Q125 90 95 70 Q80 90 60 110 Z"
+            fill="#080808"/>
+
           </svg>
+
         </div>
       </div>
+
       <div class="candidate-name">CALON 2</div>
+
     </div>
 
     <!-- CALON 3 -->
+
     <div class="candidate-card" onclick="pilihKandidat(3)">
+
       <div class="candidate-number">3</div>
+
       <div class="photo-frame">
         <img src="calon3.png" alt="Agus Sopian, S.T.">
       </div>
+
       <div class="candidate-name">AGUS SOPIAN, S.T.</div>
+
     </div>
 
   </div>
@@ -560,36 +724,62 @@ button {
       PILIH KANDIDAT INI
     </button>
   </div>
+
 </section>
 
-<!-- KONFIRMASI -->
+<!-- =========================
+     MODAL KONFIRMASI
+========================= -->
+
 <div class="modal" id="confirmModal">
+
   <div class="modal-box">
+
     <h2>YAKIN DENGAN PILIHAN ANDA?</h2>
 
     <div class="confirm-content">
+
       <div class="confirm-photo" id="confirmPhoto"></div>
+
       <div class="confirm-info">
         <div class="number" id="confirmNumber"></div>
         <div class="name" id="confirmName"></div>
       </div>
+
     </div>
 
     <div class="modal-buttons">
-      <button class="red" onclick="tutupKonfirmasi()">ULANGI</button>
-      <button class="blue" onclick="simpanPilihan()">SIMPAN</button>
+
+      <button class="red" onclick="tutupKonfirmasi()">
+        ULANGI
+      </button>
+
+      <button class="blue" onclick="simpanPilihan()">
+        SIMPAN
+      </button>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- STRUK SIMULASI -->
+<!-- =========================
+     HALAMAN STRUK SIMULASI
+========================= -->
+
 <section id="receiptPage" class="page">
+
   <div class="receipt">
+
     <h2>PILKADES BANTARSARI</h2>
+
     <p>BUKTI SIMULASI PEMILIHAN</p>
+
     <p id="receiptTime"></p>
 
     <div id="receiptQR"></div>
+
     <p>QR CODE BUKTI TRANSAKSI</p>
 
     <div class="motto">
@@ -598,147 +788,276 @@ button {
     </div>
 
     <div class="receipt-actions">
+
       <button class="red" onclick="kembaliScan()">
         KEMBALI KE SCAN BARCODE UNDANGAN
       </button>
+
     </div>
+
   </div>
+
 </section>
 
 <script>
+
+/* =========================
+   DATA KANDIDAT
+========================= */
+
 let selectedCandidate = null;
 let scanner = null;
 let scanStarted = false;
 let openingScanner = false;
 
 const candidates = {
-  1: { name: "CALON 1", photo: "" },
-  2: { name: "CALON 2", photo: "" },
-  3: { name: "AGUS SOPIAN, S.T.", photo: "calon3.png" }
+  1: {
+    name: "CALON 1",
+    photo: ""
+  },
+
+  2: {
+    name: "CALON 2",
+    photo: ""
+  },
+
+  3: {
+    name: "AGUS SOPIAN, S.T.",
+    photo: "calon3.png"
+  }
 };
 
+/* =========================
+   PINDAH HALAMAN
+========================= */
+
 function tampilkanHalaman(id) {
+
   document.querySelectorAll(".page").forEach(page => {
     page.classList.remove("active");
   });
+
   document.getElementById(id).classList.add("active");
+
 }
 
+/* =========================
+   PEMINDAI QR
+========================= */
+
 async function mulaiScan() {
+
   if (openingScanner || scanner) return;
 
   openingScanner = true;
+
   const status = document.getElementById("scanStatus");
 
   if (typeof Html5Qrcode === "undefined") {
-    status.textContent = "Pemindai tidak tersedia. Gunakan tanpa barcode.";
+
+    status.textContent =
+      "Pemindai tidak tersedia. Gunakan menu tanpa barcode.";
+
     openingScanner = false;
     return;
+
   }
 
   scanner = new Html5Qrcode("reader");
 
   try {
+
     await scanner.start(
+
       { facingMode: "environment" },
+
       {
         fps: 10,
+
         qrbox: function(viewWidth, viewHeight) {
+
           const size = Math.min(
             Math.floor(viewWidth * 0.75),
             Math.floor(viewHeight * 0.65),
             300
           );
-          return { width: size, height: size };
+
+          return {
+            width: size,
+            height: size
+          };
+
         }
+
       },
+
       function(decodedText) {
+
         status.textContent = "QR berhasil dipindai.";
+
         hentikanScan();
+
         masukKandidat();
+
       },
-      function() {}
+
+      function(errorMessage) {}
+
     );
 
     scanStarted = true;
+
   } catch (error) {
+
     scanner = null;
+
     status.textContent =
       "Kamera tidak dapat dibuka. Gunakan menu tanpa barcode.";
+
   }
 
   openingScanner = false;
+
 }
 
+/* =========================
+   HENTIKAN KAMERA
+========================= */
+
 async function hentikanScan() {
+
   if (scanner && scanStarted) {
+
     try {
+
       await scanner.stop();
       await scanner.clear();
+
     } catch (e) {}
+
   }
 
   scanner = null;
   scanStarted = false;
   openingScanner = false;
+
 }
+
+/* =========================
+   MASUK TANPA BARCODE
+========================= */
 
 function tanpaBarcode() {
+
   hentikanScan();
+
   masukKandidat();
+
 }
 
+/* =========================
+   MASUK HALAMAN KANDIDAT
+========================= */
+
 function masukKandidat() {
+
   selectedCandidate = null;
+
   document.querySelectorAll(".candidate-card").forEach(card => {
     card.classList.remove("selected");
   });
+
   tampilkanHalaman("candidatePage");
+
 }
 
+/* =========================
+   PILIH KANDIDAT
+========================= */
+
 function pilihKandidat(nomor) {
+
   selectedCandidate = nomor;
 
   document.querySelectorAll(".candidate-card").forEach((card, index) => {
-    card.classList.toggle("selected", index + 1 === nomor);
+
+    card.classList.toggle(
+      "selected",
+      index + 1 === nomor
+    );
+
   });
+
 }
 
+/* =========================
+   KONFIRMASI PILIHAN
+========================= */
+
 function konfirmasiPilihan() {
+
   if (!selectedCandidate) {
+
     alert("Silakan pilih salah satu kandidat terlebih dahulu.");
+
     return;
+
   }
 
   const data = candidates[selectedCandidate];
+
   document.getElementById("confirmNumber").textContent =
     "NOMOR URUT " + selectedCandidate;
-  document.getElementById("confirmName").textContent = data.name;
+
+  document.getElementById("confirmName").textContent =
+    data.name;
 
   const photoBox = document.getElementById("confirmPhoto");
+
   photoBox.innerHTML = "";
 
   if (data.photo) {
+
     const img = document.createElement("img");
+
     img.src = data.photo;
     img.alt = data.name;
+
     photoBox.appendChild(img);
+
   } else {
-    photoBox.innerHTML =
-      document.querySelectorAll(".silhouette")[selectedCandidate - 1].outerHTML;
+
+    const silhouette =
+      document.querySelectorAll(".silhouette")[selectedCandidate - 1];
+
+    photoBox.innerHTML = silhouette.outerHTML;
+
   }
 
   document.getElementById("confirmModal").classList.add("show");
+
 }
+
+/* =========================
+   TUTUP KONFIRMASI / ULANGI
+========================= */
 
 function tutupKonfirmasi() {
+
   document.getElementById("confirmModal").classList.remove("show");
+
 }
 
+/* =========================
+   SIMPAN PILIHAN SIMULASI
+========================= */
+
 function simpanPilihan() {
+
   if (!selectedCandidate) return;
 
   const kode = "BTS-" + Date.now();
+
   const waktu = new Date().toLocaleString("id-ID");
 
   const dataSimulasi = {
@@ -754,22 +1073,38 @@ function simpanPilihan() {
   );
 
   tutupKonfirmasi();
+
   document.getElementById("receiptTime").textContent = waktu;
 
   const qrBox = document.getElementById("receiptQR");
+
   qrBox.innerHTML = "";
 
-  new QRCode(qrBox, {
-    text: kode,
-    width: 145,
-    height: 145,
-    correctLevel: QRCode.CorrectLevel.H
-  });
+  if (typeof QRCode !== "undefined") {
+
+    new QRCode(qrBox, {
+      text: kode,
+      width: 145,
+      height: 145,
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+  } else {
+
+    qrBox.textContent = kode;
+
+  }
 
   tampilkanHalaman("receiptPage");
+
 }
 
+/* =========================
+   KEMBALI KE SCAN
+========================= */
+
 async function kembaliScan() {
+
   await hentikanScan();
 
   selectedCandidate = null;
@@ -779,6 +1114,7 @@ async function kembaliScan() {
   });
 
   document.getElementById("reader").innerHTML = "";
+
   document.getElementById("scanStatus").textContent =
     "Siap memindai QR undangan pemilih...";
 
@@ -786,12 +1122,20 @@ async function kembaliScan() {
 
   setTimeout(() => {
     mulaiScan();
-  }, 300);
+  }, 400);
+
 }
 
-window.addEventListener("load", () => {
+/* =========================
+   MULAI APLIKASI
+========================= */
+
+window.addEventListener("load", function() {
+
   mulaiScan();
+
 });
+
 </script>
 
 </body>
